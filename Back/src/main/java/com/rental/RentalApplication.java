@@ -1,13 +1,13 @@
-package com.fp;
+package com.rental;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FinalProjectApplication {
+public class RentalApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FinalProjectApplication.class, args);
+		SpringApplication.run(RentalApplication.class, args);
 	}
 
 }
