@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiAxios from '../lib/apiAxios';
 
 const Map = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [mapInstance, setMapInstance] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
+
+
         const loadMap = () => {
             const { kakao } = window;
             const mapContainer = document.getElementById('map');
@@ -37,6 +41,10 @@ const Map = () => {
         });
     };
 
+    const handleLogout = () => {
+        navigate('/');
+    };
+
     const handleResultClick = (place) => {
         window.open(`https://map.kakao.com/link/map/${place.id}`, '_blank');
     };
@@ -63,7 +71,6 @@ const Map = () => {
                     ))}
                 </ul>
             </div>
-            <button onClick={() => navigate(-1)}> 뒤로가기 </button>
         </div>
     );
 };

@@ -1,19 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './components/login'
-import Home from './components/home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UsedCarBoard from './components/usedCarBoard';
+import { useSelector } from 'react-redux';
+import UsedCarBoard from './page/usedCarBoard';
 
+import Header from './components/header'
+import Login from './page/login'
+import Logout from './page/logout'
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+          <Header />  
             <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/usedcar-board" element={<UsedCarBoard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/usedCarBoard" element={<UsedCarBoard />} />
             </Routes>
         </BrowserRouter>
     </div>

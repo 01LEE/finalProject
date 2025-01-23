@@ -5,6 +5,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Claims;
 
+import com.rental.dto.UserDTO;
+import com.rental.service.UserService;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,10 +15,22 @@ import java.util.Map;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TokenProvider {
+
+   private final UserService userService;
+
+    public TokenProvider(UserService userService) {
+        this.userService = userService;
+    }
+    
+
+
+
+
 
     private final long expiredTime = 1000L * 60L * 60L; // 1시간
     private final SecretKey key = Keys
@@ -26,7 +41,12 @@ public class TokenProvider {
         System.out.println("userId : " + userId);
         System.out.println("passWord : " + passWord);
 
-        if (userId.trim().equals("gustjd11")) {
+        UserDTO dto = userService.loginService(userId, passWord);
+
+
+        System.out.println("dto :" + dto);
+      
+        if (dto != null && dto.getUserId().equals(userId)) {
             return Jwts.builder()
                     .setHeader(createHeader())
                     .setClaims(createClaims(userId, passWord))
@@ -63,15 +83,16 @@ public class TokenProvider {
         return claims;
     }
 
-    public Claims parseToken(String token) {
+    public boolean isValidToken(String token) {
         try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(key) // 서명 키 설정
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(token) // 토큰 검증 및 디코딩
-                    .getBody(); // Claims 반환
+                    .parseClaimsJws(token);
+            return true;
         } catch (Exception e) {
-            throw new RuntimeException("토큰 검증 실패: " + e.getMessage());
+            System.err.println("토큰 검증 실패: " + e.getMessage());
+            return false;
         }
     }
 }

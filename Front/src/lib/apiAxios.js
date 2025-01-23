@@ -2,10 +2,9 @@ import axios from "axios";
 
 //baseURL, timeout 등 기본 설정을 가진 Axios 인스턴스
 const apiAxios = axios.create({
+  //Header 설정 필요없이 쿠키 사용
   baseURL: "http://localhost:9999",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  withCredentials: true, // 쿠키 포함
 });
 //요청 인터셉터 추가
 apiAxios.interceptors.request.use(
