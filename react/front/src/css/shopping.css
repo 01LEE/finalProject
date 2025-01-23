@@ -1,0 +1,65 @@
+/* 전체 페이지 스타일 */
+.shopping-page {
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  height: calc(100vh - 50px); /* 헤더 제외 */
+}
+
+/* 좌측 카테고리 영역 */
+.categories {
+  flex: 1; /* 1/5 크기 */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-right: 1px solid #ddd; /* 세로선 */
+  overflow-y: auto;
+}
+
+.category-section,
+.subcategory-section,
+.subcategory-detail-section {
+  margin-bottom: 20px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.category-button:hover {
+  background-color: #f1f1f1;
+}
+
+.category-button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* 우측 메인 콘텐츠 */
+.main-content {
+  flex: 4; /* 4/5 크기 */
+  padding: 20px;
+  overflow-y: auto;
+}

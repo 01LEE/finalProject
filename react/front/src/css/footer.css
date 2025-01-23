@@ -1,0 +1,44 @@
+/* 전체 레이아웃 설정 */
+html, body {
+  margin: 0; /* 여백 제거 */
+  padding: 0; /* 여백 제거 */
+  height: 100%; /* 화면 전체 높이 */
+  display: flex;
+  flex-direction: column; /* 상단부터 아래로 정렬 */
+}
+
+/* 메인 콘텐츠 영역 */
+main {
+  flex: 1; /* 메인 콘텐츠가 화면의 남은 공간을 채우도록 설정 */
+}
+
+/* 전체 푸터 스타일 */
+.footer {
+  background-color: #f9f9f9; /* 푸터 배경색 */
+  padding: 20px 0; /* 위아래 패딩 */
+  text-align: center; /* 가운데 정렬 */
+  border-top: 1px solid #ddd; /* 위쪽 경계선 */
+  font-family: Arial, sans-serif;
+  width: 100%; /* 화면 너비 전체 */
+}
+  
+/* 링크 컨테이너 */
+.footer-links {
+  display: flex;
+  justify-content: center; /* 가로 정렬 */
+  flex-wrap: wrap; /* 화면 크기에 따라 줄바꿈 */
+  gap: 15px; /* 링크 간 간격 */
+}
+
+/* 개별 링크 스타일 */
+.footer-link {
+  color: #777; /* 링크 색상 */
+  font-size: 14px; /* 글자 크기 */
+  text-decoration: none; /* 밑줄 제거 */
+  transition: color 0.2s ease-in-out; /* 호버 시 부드럽게 색상 변경 */
+}
+
+.footer-link:hover {
+  color: #000; /* 호버 시 색상 변경 */
+  text-decoration: underline; /* 호버 시 밑줄 표시 */
+}
