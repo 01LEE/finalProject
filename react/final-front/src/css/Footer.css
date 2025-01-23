@@ -1,0 +1,29 @@
+footer {
+  background-color: #000; /* 풋터 배경색 */
+  color: #aaa; /* 텍스트 색상 */
+  font-size: 14px; /* 텍스트 크기 */
+  text-align: center; /* 가운데 정렬 */
+  padding: 20px 10px; /* 상하좌우 패딩 */
+  position: fixed; /* 항상 화면 하단에 고정 */
+  bottom: 0; /* 화면 하단 고정 */
+  width: 100%; /* 전체 화면 너비에 맞춤 */
+  z-index: 999; /* 다른 요소 위로 나오도록 설정 */
+}
+
+footer .footer-links {
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  gap: 15px; /* 링크 간 간격 */
+  flex-wrap: wrap; /* 링크를 화면 크기에 따라 줄바꿈 */
+  margin-bottom: 10px; /* 링크 아래쪽 여백 */
+}
+
+footer .footer-links a {
+  color: #aaa; /* 링크 색상 */
+  text-decoration: none; /* 밑줄 제거 */
+  font-size: 14px; /* 글자 크기 */
+}
+
+footer .footer-links a:hover {
+  text-decoration: underline; /* 마우스 오버 시 밑줄 표시 */
+}
