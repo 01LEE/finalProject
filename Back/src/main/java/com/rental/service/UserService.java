@@ -25,4 +25,9 @@ public class UserService {
         }
         return user;
     }
+
+    public Integer getUserNoByUserId(String userId) {
+        return mapper.findUserNoByUserId(userId);
+    }
+    
 }

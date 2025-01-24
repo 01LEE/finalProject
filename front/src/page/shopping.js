@@ -47,44 +47,49 @@ const Shopping = () => {
     },
   };
 
-  
-
-
   // 데이터 요청 함수
   const fetchData = async () => {
     try {
-      const params = {};
-      if (selectedCategory) params.categoryMain = selectedCategory;
-      if (selectedSubcategory) params.categorySub = selectedSubcategory;
-      if (selectedDetail) params.categoryDetail = selectedDetail;
-      
-      console.log("Fetching data with params:", params); // 요청 시의 파라미터 확인
+      const params = {
+        categoryMain: selectedCategory?.trim(),
+        categorySub: selectedSubcategory?.trim(),
+        categoryDetail: selectedDetail?.trim()
+      };
 
-      const response = await axios.get('http://localhost:9999/shopping', { params });
+      console.log("Fetching data with params:", params);
+
+      const response = await axios.get("http://localhost:9999/shopping", { params });
+      console.log("API Response Data:", response.data);
       setData(response.data);
       setError(null);
     } catch (error) {
-      setError('데이터를 불러오는 데 실패했습니다. 다시 시도해주세요.');
+      console.error("Error fetching data:", error);
+      setError("데이터를 불러오는 데 실패했습니다. 다시 시도해주세요.");
     }
   };
 
-
   // 데이터 요청
-   // 선택 항목이 변경될 때마다 데이터 요청
-   useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, [selectedCategory, selectedSubcategory, selectedDetail]);
 
   // 카테고리 변경 핸들러
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+    setSelectedCategory(category?.trim());
     setSelectedSubcategory(null);
     setSelectedDetail(null);
   };
 
   const handleSubcategoryChange = (subcategory) => {
-    setSelectedSubcategory(subcategory);
+    setSelectedSubcategory(subcategory?.trim());
     setSelectedDetail(null);
+    console.log("Selected Subcategory:", subcategory);
+    console.log("Available 소분류:", categories.소분류[subcategory?.trim()]); // 디버깅 로그 추가
+  };
+
+  const handleDetailChange = (detail) => {
+    setSelectedDetail(detail?.trim());
+    console.log("Selected Detail:", detail);
   };
 
   return (
@@ -101,9 +106,7 @@ const Shopping = () => {
             {categories.대분류.map((category, index) => (
               <button
                 key={index}
-                className={`category-button ${
-                  selectedCategory === category ? "active" : ""
-                }`}
+                className={`category-button ${selectedCategory === category ? "active" : ""}`}
                 onClick={() => handleCategoryChange(category)}
               >
                 {category}
@@ -117,9 +120,7 @@ const Shopping = () => {
               {categories.중분류[selectedCategory]?.map((subcategory, index) => (
                 <button
                   key={index}
-                  className={`category-button ${
-                    selectedSubcategory === subcategory ? "active" : ""
-                  }`}
+                  className={`category-button ${selectedSubcategory === subcategory ? "active" : ""}`}
                   onClick={() => handleSubcategoryChange(subcategory)}
                 >
                   {subcategory}
@@ -131,17 +132,26 @@ const Shopping = () => {
           {selectedSubcategory && (
             <section className="subcategory-detail-section">
               <h2>소분류</h2>
-              {categories.소분류[selectedSubcategory]?.map((detail, index) => (
-                <button
-                  key={index}
-                  className={`category-button ${
-                    selectedDetail === detail ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedDetail(detail)}
-                >
-                  {detail}
-                </button>
-              ))}
+              {(() => {
+                const normalizedSubcategory = selectedSubcategory?.trim();
+                console.log("Normalized Subcategory:", normalizedSubcategory);
+
+                const availableDetails = categories.소분류[normalizedSubcategory];
+                if (!availableDetails) {
+                  console.error(`No matching 소분류 found for key: ${normalizedSubcategory}`);
+                  return <p>선택한 중분류에 해당하는 소분류가 없습니다.</p>;
+                }
+
+                return availableDetails.map((detail, index) => (
+                  <button
+                    key={index}
+                    className={`category-button ${selectedDetail === detail ? "active" : ""}`}
+                    onClick={() => handleDetailChange(detail)}
+                  >
+                    {detail}
+                  </button>
+                ));
+              })()}
             </section>
           )}
         </aside>

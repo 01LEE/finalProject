@@ -7,4 +7,6 @@ import com.rental.dto.UserDTO;
 
 public interface UserMapper {  
     UserDTO selectIdUser(String userId, String passWord); // 구현체 제거
+
+    Integer findUserNoByUserId(String userId);
 }

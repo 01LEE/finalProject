@@ -12,5 +12,10 @@
     WHERE user_id = #{userId} AND password = #{passWord}
 </select>
 
+<select id="findUserNoByUserId" resultType="int">
+    SELECT user_no
+    FROM users
+    WHERE user_id = #{userId}
+</select>
 
 </mapper>

@@ -10,19 +10,21 @@ public class ReviewDTO {
     private String content;        // content
     private LocalDateTime createdDate; // created_date
     private int evaluation;        // evaluation
+    private String userId;
 
     // 기본 생성자
     public ReviewDTO() {
     }
 
     // 모든 필드를 포함하는 생성자
-    public ReviewDTO(int reviewNo, int productId, int userNo, String content, LocalDateTime createdDate, int evaluation) {
+    public ReviewDTO(int reviewNo, int productId, int userNo, String content, LocalDateTime createdDate, int evaluation, String userId) {
         this.reviewNo = reviewNo;
         this.productId = productId;
         this.userNo = userNo;
         this.content = content;
         this.createdDate = createdDate;
         this.evaluation = evaluation;
+        this.userId = userId;
     }
 
     // Getter and Setter
@@ -74,6 +76,16 @@ public class ReviewDTO {
         this.evaluation = evaluation;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+   
+
     @Override
     public String toString() {
         return "ReviewDTO{" +
@@ -83,6 +95,7 @@ public class ReviewDTO {
                 ", content='" + content + '\'' +
                 ", createdDate=" + createdDate +
                 ", evaluation=" + evaluation +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

@@ -39,26 +39,43 @@
                 AND category_sub = #{categorySub}
             </if>
             <if test="categoryDetail != null and categoryDetail != ''">
-                AND category_detail = #{categoryDetail}
-            </if>
+    AND category_detail LIKE '%' || #{categoryDetail} || '%'
+</if>
     </select>
      <!-- 리뷰 추가 -->
     <insert id="insertReview" parameterType="com.rental.dto.ReviewDTO">
-        INSERT INTO review (
-            review_no,
-            product_id,
-            user_no,
-            content,
-            created_date,
-            evaluation
-        ) VALUES (
-            #{reviewNo},
-            #{productId},
-            #{userNo},
-            #{content},
-            CURRENT_TIMESTAMP,
-            #{evaluation}
-        )
-    </insert>
+    INSERT INTO review (
+        review_no,
+        product_id,
+        user_no,
+        user_id,       <!-- USER_ID 추가 -->
+        content,
+        created_date,
+        evaluation
+    ) VALUES (
+        review_no_seq.NEXTVAL,  <!-- 시퀀스를 사용 -->
+        #{productId},
+        #{userNo},
+        #{userId},    <!-- USER_ID 값 삽입 -->
+        #{content},
+        CURRENT_TIMESTAMP,
+        #{evaluation}
+    )
+</insert>
 
+    <resultMap id="ReviewResultMap" type="com.rental.dto.ReviewDTO">
+    <result property="reviewNo" column="review_no"/>
+    <result property="productId" column="product_id"/>
+    <result property="userNo" column="user_no"/>
+    <result property="content" column="content"/>
+    <result property="createdDate" column="created_date"/>
+    <result property="evaluation" column="evaluation"/>
+    <result property="userId" column="user_id"/>
+</resultMap>
+
+<select id="getReviewsByProductId" resultMap="ReviewResultMap">
+    SELECT review_no, product_id, user_no, content, created_date, evaluation, user_id
+    FROM review
+    WHERE product_id = #{productId}
+</select>
 </mapper>

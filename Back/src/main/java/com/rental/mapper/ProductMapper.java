@@ -13,4 +13,6 @@ public interface ProductMapper {
   List<ProductDTO> selectProducts(Map<String, Object> params);
 
   int insertReview(ReviewDTO reviewDTO);
+
+  List<ReviewDTO> getReviewsByProductId(int productId);
 }

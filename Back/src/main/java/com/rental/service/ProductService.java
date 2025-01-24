@@ -27,4 +27,8 @@ public class ProductService {
     public int addReview(ReviewDTO reviewDTO) {
       return mapper.insertReview(reviewDTO);
   }
+
+    public List<ReviewDTO> getReviewsByProductId(int productId) {
+        return mapper.getReviewsByProductId(productId);
+    }
 }
