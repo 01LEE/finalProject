@@ -1,19 +1,14 @@
 package com.rental.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rental.dto.ProductDTO;
 import com.rental.dto.ReviewDTO;
@@ -99,5 +94,40 @@ public class ShoppingController {
         return ResponseEntity.ok(response);
     }
 
-   
+    /**
+     * 이미지 업로드
+     */
+    @PostMapping("/shopping/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            String uploadDir = "uploads/";
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                directory.mkdir(); // 디렉토리가 없으면 생성
+            }
+
+            String filePath = uploadDir + file.getOriginalFilename();
+            file.transferTo(new File(filePath)); // 서버에 파일 저장
+
+            return ResponseEntity.ok(filePath); // 저장된 파일 경로 반환
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("이미지 업로드 실패");
+        }
+    }
+
+    /**
+     * 상품에 이미지 경로 추가
+     */
+    @PostMapping("/shopping/{productId}/add-image")
+    public ResponseEntity<String> addImageToProduct(
+        @PathVariable int productId,
+        @RequestParam("imagePath") String imagePath
+    ) {
+        try {
+            productService.updateProductImage(productId, imagePath, null);
+            return ResponseEntity.ok("이미지 경로가 성공적으로 추가되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("이미지 경로 추가 중 오류가 발생했습니다.");
+        }
+    }
 }

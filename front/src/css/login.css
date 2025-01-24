@@ -1,0 +1,87 @@
+/* 전체 컨테이너 스타일 */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  font-family: Arial, sans-serif;
+}
+
+/* 로그인 박스 스타일 */
+.login-box {
+  background-color: #fff;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  padding: 30px 40px;
+  width: 400px;
+  text-align: center;
+}
+
+/* 제목 스타일 */
+.login-title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+/* 입력 필드 스타일 */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.login-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.login-input:focus {
+  border-color: #FF0000;
+}
+
+/* 체크박스 스타일 */
+.checkbox-container {
+  margin-bottom: 20px;
+  display: flex;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 로그인 버튼 스타일 */
+.login-button {
+  width: 100%;
+  background-color: #FF0000;
+  color: white;
+  padding: 10px 20px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.login-button:hover {
+  background-color: #A9A9A9;
+}
+
+/* 링크 스타일 */
+.login-links {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.login-links a {
+  color: #FF0000;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}

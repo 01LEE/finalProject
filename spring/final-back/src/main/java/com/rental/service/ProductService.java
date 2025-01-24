@@ -13,18 +13,25 @@ import com.rental.mapper.ProductMapper;
 @Service
 public class ProductService {
 
-  private final ProductMapper mapper;
+    private final ProductMapper mapper;
 
-  @Autowired
-	public ProductService(ProductMapper mapper) {
-		this.mapper = mapper;
-	}
+    @Autowired
+    public ProductService(ProductMapper mapper) {
+        this.mapper = mapper;
+    }
 
-	public List<ProductDTO> selectProducts(Map<String, Object> params) {
+    public List<ProductDTO> selectProducts(Map<String, Object> params) {
         return mapper.selectProducts(params);
     }
 
     public int addReview(ReviewDTO reviewDTO) {
-      return mapper.insertReview(reviewDTO);
-  }
+        return mapper.insertReview(reviewDTO);
+    }
+
+    /**
+     * 상품 이미지 경로 업데이트
+     */
+    public void updateProductImage(int productId, String imagePath, String detailImagePath) {
+        mapper.updateProductImage(productId, imagePath, detailImagePath);
+    }
 }

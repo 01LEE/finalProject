@@ -17,7 +17,7 @@
         <result property="productDetailImage" column="product_detail_image" />
     </resultMap>
 
-    <!--제품 조회 -->
+    <!-- 제품 조회 -->
     <select id="selectProducts" resultMap="ProductResultMap" parameterType="map">
         SELECT 
             product_id, 
@@ -39,10 +39,11 @@
                 AND category_sub = #{categorySub}
             </if>
             <if test="categoryDetail != null and categoryDetail != ''">
-                AND category_detail = #{categoryDetail}
+                AND category_detail LIKE '%' || #{categoryDetail} || '%'
             </if>
     </select>
-     <!-- 리뷰 추가 -->
+
+    <!-- 리뷰 추가 -->
     <insert id="insertReview" parameterType="com.rental.dto.ReviewDTO">
         INSERT INTO review (
             review_no,
@@ -60,5 +61,18 @@
             #{evaluation}
         )
     </insert>
+
+    <!-- 상품 이미지 경로 업데이트 -->
+    <update id="updateProductImage">
+        UPDATE product
+        SET product_image = #{imagePath}
+        WHERE product_id = #{productId}
+    </update>
+    <update id="updateProductImage">
+        UPDATE product
+        SET product_image = #{imagePath},
+        product_detail_image = #{detailImagePath}
+        WHERE product_id = #{productId}
+    </update>
 
 </mapper>
