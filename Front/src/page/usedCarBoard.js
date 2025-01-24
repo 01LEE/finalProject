@@ -3,66 +3,54 @@ import axios from 'axios';
 import '../css/UsedCar.css'; // CSS 파일 적용
 
 const UsedCarBoard = () => {
-    const [cars, setCars] = useState([]);
-    const [selectedBrands, setSelectedBrands] = useState([]);
-    const [selectedColors, setSelectedColors] = useState([]);
-    const [selectedYearRange, setSelectedYearRange] = useState({ min: "", max: "" });
-    const [selectedKmRange, setSelectedKmRange] = useState({ min: "", max: "" });
-    const [selectedFuels, setSelectedFuels] = useState([]);
-    const [selectedTransmissions, setSelectedTransmissions] = useState([]);
-    const [selectedDriveTypes, setSelectedDriveTypes] = useState([]);
+    const [cars, setCars] = useState([]); // 중고차 데이터를 저장할 상태
     const [currentPage, setCurrentPage] = useState(1);
-
-    const [isBrandDropdownOpen, setIsBrandDropdownOpen] = useState(false);
-    const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
-    const [isFuelDropdownOpen, setIsFuelDropdownOpen] = useState(false);
-    const [isTransmissionDropdownOpen, setIsTransmissionDropdownOpen] = useState(false);
-    const [isDriveTypeDropdownOpen, setIsDriveTypeDropdownOpen] = useState(false);
-
     const itemsPerPage = 12;
 
-    const brands = ['현대', '기아', '제네시스', '쉐보레(GM대우)', '르노코리아(삼성)', 'KG모빌리티(쌍용)'];
-    const fuelOptions = [
-        "가솔린", "디젤", "LPG", "가솔린+LPG", "가솔린+전기", "디젤+전기",
-        "LPG+전기", "전기", "가솔린+CNG", "LNG", "CNG", "수소전기", "기타"
-    ];
-    const transmissionOptions = ["오토", "수동", "세미오토", "CVT", "기타"];
-    const driveTypeOptions = ["전륜", "후륜", "4륜"];
+    // 필터 상태
+    const [filters, setFilters] = useState({
+        brand: '',
+        modelYear: '',
+        minPrice: '',
+        maxPrice: '',
+    });
 
+    // 데이터 로드
     useEffect(() => {
-        axios.get('http://localhost:9999/used-cars/getAllUsedCars')
+        fetchCars();
+    }, [filters]);
+
+    const fetchCars = () => {
+        // 빈 값 제거
+        const queryParams = new URLSearchParams(
+            Object.entries(filters).filter(([_, value]) => value !== '')
+        ).toString();
+    
+        axios.get(`http://localhost:9999/used-cars/getAllUsedCars${queryParams ? `?${queryParams}` : ''}`)
             .then((response) => {
-                setCars(response.data);
+                setCars(response.data); // API 호출 성공 시 데이터 저장
             })
             .catch((error) => {
                 console.error('Failed to fetch used cars:', error);
             });
-    }, []);
+    };
 
-    const filteredCars = cars.filter((car) => {
-        const matchesBrand =
-            selectedBrands.length === 0 || selectedBrands.includes(car.brand);
+    // 필터 상태 변경 핸들러
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
 
-        const matchesColor =
-            selectedColors.length === 0 || selectedColors.includes(car.color);
-
-        const matchesFuel =
-            selectedFuels.length === 0 || selectedFuels.includes(car.fuelType);
-
-        const matchesTransmission =
-            selectedTransmissions.length === 0 || selectedTransmissions.includes(car.transmission);
-
-        const matchesDriveType =
-            selectedDriveTypes.length === 0 || selectedDriveTypes.includes(car.driveType);
-
-        return matchesBrand && matchesColor && matchesFuel && matchesTransmission && matchesDriveType;
-    });
-
-    const paginatedCars = filteredCars.slice(
+    // 현재 페이지의 차량 데이터
+    const paginatedCars = cars.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
 
+    // 페이지 변경 핸들러
     const handlePageChange = (page) => setCurrentPage(page);
 
     return (
@@ -75,132 +63,52 @@ const UsedCarBoard = () => {
                 <aside className="sidebar">
                     <h2>필터</h2>
 
-                    {/* 브랜드 필터 (드롭다운) */}
-                    <h3 onClick={() => setIsBrandDropdownOpen(!isBrandDropdownOpen)}>
-                        브랜드 {isBrandDropdownOpen ? "▲" : "▼"}
-                    </h3>
-                    {isBrandDropdownOpen && (
-                        <div className="dropdown-menu">
-                            {brands.map((brand) => (
-                                <button
-                                    key={brand}
-                                    className={selectedBrands.includes(brand) ? "selected" : ""}
-                                    onClick={() => {
-                                        setSelectedBrands((prev) =>
-                                            prev.includes(brand)
-                                                ? prev.filter((b) => b !== brand)
-                                                : [...prev, brand]
-                                        );
-                                    }}
-                                >
-                                    {brand}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    {/* 브랜드 필터 */}
+                    <label>
+                        브랜드:
+                        <select name="brand" onChange={handleFilterChange} value={filters.brand}>
+                            <option value="">전체</option>
+                            <option value="현대">현대</option>
+                            <option value="기아">기아</option>
+                            <option value="제네시스">제네시스</option>
+                            <option value="쉐보레(GM대우)">쉐보레(GM대우)</option>
+                            <option value="르노코리아(삼성)">르노코리아(삼성)</option>
+                            <option value="KG모빌리티(쌍용)">KG모빌리티(쌍용)</option>
+                        </select>
+                    </label>
 
-                    {/* 색상 필터 (드롭다운, 색상 박스) */}
-                    <h3 onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}>
-                        색상 {isColorDropdownOpen ? "▲" : "▼"}
-                    </h3>
-                    {isColorDropdownOpen && (
-                        <div className="dropdown-menu">
-                            {[...new Set(cars.map((car) => car.color))].map((color) => (
-                                <div
-                                    key={color}
-                                    className={`color-box ${selectedColors.includes(color) ? 'selected' : ''}`}
-                                    style={{
-                                        backgroundColor: color.toLowerCase(),
-                                        width: "30px",
-                                        height: "30px",
-                                        border: "1px solid #ccc",
-                                        display: "inline-block",
-                                        margin: "5px",
-                                        cursor: "pointer"
-                                    }}
-                                    onClick={() => {
-                                        setSelectedColors((prev) =>
-                                            prev.includes(color)
-                                                ? prev.filter((c) => c !== color)
-                                                : [...prev, color]
-                                        );
-                                    }}
-                                ></div>
+                    {/* 연식 필터 */}
+                    <label>
+                        연식:
+                        <select name="modelYear" onChange={handleFilterChange} value={filters.modelYear}>
+                            <option value="">전체</option>
+                            {Array.from(new Set(cars.map((car) => car.modelYear))).sort((a, b) => b - a).map((year) => (
+                                <option key={year} value={year}>{year}</option>
                             ))}
-                        </div>
-                    )}
+                        </select>
+                    </label>
 
-                    {/* 연료 필터 (드롭다운) */}
-                    <h3 onClick={() => setIsFuelDropdownOpen(!isFuelDropdownOpen)}>
-                        연료 {isFuelDropdownOpen ? "▲" : "▼"}
-                    </h3>
-                    {isFuelDropdownOpen && (
-                        <div className="dropdown-menu">
-                            {fuelOptions.map((fuel) => (
-                                <button
-                                    key={fuel}
-                                    className={selectedFuels.includes(fuel) ? "selected" : ""}
-                                    onClick={() => {
-                                        setSelectedFuels((prev) =>
-                                            prev.includes(fuel)
-                                                ? prev.filter((f) => f !== fuel)
-                                                : [...prev, fuel]
-                                        );
-                                    }}
-                                >
-                                    {fuel}
-                                </button>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* 변속기 필터 (드롭다운) */}
-                    <h3 onClick={() => setIsTransmissionDropdownOpen(!isTransmissionDropdownOpen)}>
-                        변속기 {isTransmissionDropdownOpen ? "▲" : "▼"}
-                    </h3>
-                    {isTransmissionDropdownOpen && (
-                        <div className="dropdown-menu">
-                            {transmissionOptions.map((transmission) => (
-                                <button
-                                    key={transmission}
-                                    className={selectedTransmissions.includes(transmission) ? "selected" : ""}
-                                    onClick={() => {
-                                        setSelectedTransmissions((prev) =>
-                                            prev.includes(transmission)
-                                                ? prev.filter((t) => t !== transmission)
-                                                : [...prev, transmission]
-                                        );
-                                    }}
-                                >
-                                    {transmission}
-                                </button>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* 구동방식 필터 (드롭다운) */}
-                    <h3 onClick={() => setIsDriveTypeDropdownOpen(!isDriveTypeDropdownOpen)}>
-                        구동방식 {isDriveTypeDropdownOpen ? "▲" : "▼"}
-                    </h3>
-                    {isDriveTypeDropdownOpen && (
-                        <div className="dropdown-menu">
-                            {driveTypeOptions.map((type) => (
-                                <button
-                                    key={type}
-                                    className={selectedDriveTypes.includes(type) ? "selected" : ""}
-                                    onClick={() => {
-                                        setSelectedDriveTypes((prev) =>
-                                            prev.includes(type)
-                                                ? prev.filter((d) => d !== type)
-                                                : [...prev, type]
-                                        );
-                                    }}
-                                >
-                                    {type}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    {/* 가격 필터 */}
+                    <label>
+                        최소 가격:
+                        <input
+                            type="number"
+                            name="minPrice"
+                            placeholder="예: 10000000"
+                            onChange={handleFilterChange}
+                            value={filters.minPrice}
+                        />
+                    </label>
+                    <label>
+                        최대 가격:
+                        <input
+                            type="number"
+                            name="maxPrice"
+                            placeholder="예: 50000000"
+                            onChange={handleFilterChange}
+                            value={filters.maxPrice}
+                        />
+                    </label>
                 </aside>
 
                 <main className="car-list">
@@ -209,15 +117,14 @@ const UsedCarBoard = () => {
                             <div key={index} className="car-card">
                                 <h3>{car.vehicleName}</h3>
                                 <p>브랜드: {car.brand}</p>
+                                <p>연식: {car.modelYear}년</p>
+                                <p>가격: ₩{car.price.toLocaleString()}</p>
                                 <p>색상: {car.color}</p>
-                                <p>연료: {car.fuelType}</p>
-                                <p>변속기: {car.transmission}</p>
-                                <p>구동방식: {car.driveType}</p>
-                                <p>주행 거리: {car.car_km.toLocaleString()} km</p>
+                                <p>주행 거리: {car.car_km} km</p>
                             </div>
                         ))
                     ) : (
-                        <p>조건에 맞는 차량이 없습니다.</p>
+                        <p>등록된 차량이 없습니다.</p>
                     )}
                 </main>
             </div>
@@ -225,7 +132,7 @@ const UsedCarBoard = () => {
             {/* 페이지네이션 */}
             <div className="pagination">
                 {Array.from(
-                    { length: Math.ceil(filteredCars.length / itemsPerPage) },
+                    { length: Math.ceil(cars.length / itemsPerPage) },
                     (_, i) => i + 1
                 ).map((page) => (
                     <button

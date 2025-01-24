@@ -68,37 +68,3 @@
     background-color: #ccc;
     cursor: not-allowed;
 }
-
-button.selected {
-    background-color: #007bff;
-    color: white;
-    border: 1px solid #007bff;
-}
-
-.dropdown-menu {
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #f9f9f9;
-}
-
-.dropdown-menu button {
-    display: block;
-    width: 100%;
-    margin: 5px 0;
-    padding: 8px;
-    border: none;
-    background: none;
-    text-align: left;
-    cursor: pointer;
-}
-
-.dropdown-menu button.selected {
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-}
-
-.color-box.selected {
-    border: 2px solid #007bff;
-}

@@ -4,26 +4,23 @@
 
 <mapper namespace="com.rental.mapper.UsedCarMapper">
 
-<resultMap id="UsedCarResultMap" type="com.rental.dto.UsedCarDTO">
-    <result property="vehicleName" column="VEHICLE_NAME"/>
-    <result property="vehicleNo" column="VEHICLE_NO"/>
-    <result property="dealerNo" column="DEALER_NO"/>
-    <result property="vehicleType" column="VEHICLE_TYPE"/>
-    <result property="brand" column="BRAND"/>
-    <result property="modelYear" column="MODEL_YEAR"/>
-    <result property="price" column="PRICE"/>
-    <result property="color" column="COLOR"/>
-    <result property="dealerLocation" column="DEALER_LOCATION"/>
-    <result property="fuelType" column="FUEL_TYPE"/>
-    <result property="transmission" column="TRANSMISSION"/>
-    <result property="driveType" column="DRIVE_TYPE"/>
-    <result property="usedCarImage" column="USED_CAR_IMAGE"/>
-    <result property="vehiclePlate" column="VEHICLE_PLATE"/>
-    <result property="car_km" column="CAR_KM"/>
-</resultMap>
-
-<select id="getAllUsedCars" resultMap="UsedCarResultMap">
-    SELECT *
+    <!-- 중고차 목록 조회 -->
+<select id="getAllUsedCars" resultType="com.rental.dto.UsedCarDTO">
+    SELECT vehicle_name AS vehicleName,
+           vehicle_no AS vehicleNo,
+           dealer_no AS dealerNo,
+           vehicle_type AS vehicleType,
+           brand AS brand,
+           model_year AS modelYear,
+           price AS price,
+           color AS color,
+           dealer_location AS dealerLocation,
+           fuel_type AS fuelType,
+           transmission AS transmission,
+           drive_type AS driveType,
+           used_car_image AS usedCarImage,
+           vehicle_plate AS vehiclePlate,
+           car_km AS carKm
     FROM used_car
 </select>
 </mapper>
