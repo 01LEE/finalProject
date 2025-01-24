@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.mapper.ProductMapper">
+
+    <!-- ProductDTO 필드 매핑 결과 설정 -->
+    <resultMap id="ProductResultMap" type="com.rental.dto.ProductDTO">
+        <result property="productId" column="product_id" />
+        <result property="productPrice" column="product_price" />
+        <result property="productName" column="product_name" />
+        <result property="categoryMain" column="category_main" />
+        <result property="categorySub" column="category_sub" />
+        <result property="categoryDetail" column="category_detail" />
+        <result property="productImage" column="product_image" />
+        <result property="productDetailImage" column="product_detail_image" />
+    </resultMap>
+
+    <!--제품 조회 -->
+    <select id="selectProducts" resultMap="ProductResultMap" parameterType="map">
+        SELECT 
+            product_id, 
+            product_price, 
+            product_name, 
+            category_main, 
+            category_sub, 
+            category_detail, 
+            product_image, 
+            product_detail_image
+        FROM 
+            product
+        WHERE 
+            1=1
+            <if test="categoryMain != null and categoryMain != ''">
+                AND category_main = #{categoryMain}
+            </if>
+            <if test="categorySub != null and categorySub != ''">
+                AND category_sub = #{categorySub}
+            </if>
+            <if test="categoryDetail != null and categoryDetail != ''">
+                AND category_detail = #{categoryDetail}
+            </if>
+    </select>
+     <!-- 리뷰 추가 -->
+    <insert id="insertReview" parameterType="com.rental.dto.ReviewDTO">
+        INSERT INTO review (
+            review_no,
+            product_id,
+            user_no,
+            content,
+            created_date,
+            evaluation
+        ) VALUES (
+            #{reviewNo},
+            #{productId},
+            #{userNo},
+            #{content},
+            CURRENT_TIMESTAMP,
+            #{evaluation}
+        )
+    </insert>
+
+</mapper>

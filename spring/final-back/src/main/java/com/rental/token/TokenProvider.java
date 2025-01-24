@@ -95,4 +95,22 @@ public class TokenProvider {
             return false;
         }
     }
+
+    /**
+     * 토큰에서 사용자 ID 추출
+     */
+    public String getUserIDFromToken(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            return claims.get("userId", String.class);
+        } catch (Exception e) {
+            System.err.println("토큰에서 사용자 ID를 추출하는 중 오류 발생: " + e.getMessage());
+            return null;
+        }
+    }
 }

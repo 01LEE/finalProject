@@ -4,14 +4,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
+  min-height: 80vh;
   font-family: Arial, sans-serif;
 }
 
 /* 로그인 박스 스타일 */
 .login-box {
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 10px;
   padding: 30px 40px;
   width: 400px;
@@ -20,9 +20,9 @@
 
 /* 제목 스타일 */
 .login-title {
-  font-size: 24px;
+  font-size: 40px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 /* 입력 필드 스타일 */
@@ -42,23 +42,24 @@
 }
 
 .login-input:focus {
-  border-color: #4caf50;
-  box-shadow: 0 0 3px #4caf50;
+  border-color: #FF0000;
 }
 
 /* 체크박스 스타일 */
 .checkbox-container {
   margin-bottom: 20px;
+  display: flex;
   font-size: 14px;
   color: #666;
 }
 
 /* 로그인 버튼 스타일 */
 .login-button {
-  background-color: #4caf50;
+  width: 100%;
+  background-color: #FF0000;
   color: white;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -66,7 +67,7 @@
 }
 
 .login-button:hover {
-  background-color: #45a049;
+  background-color: #A9A9A9;
 }
 
 /* 링크 스타일 */
@@ -76,28 +77,11 @@
 }
 
 .login-links a {
-  color: #4caf50;
+  color: #FF0000;
   text-decoration: none;
   margin: 0 5px;
 }
 
 .login-links a:hover {
-  text-decoration: underline;
-}
-
-/* 푸터 스타일 */
-.login-footer {
-  margin-top: 20px;
-  font-size: 12px;
-  color: #999;
-  text-align: center;
-}
-
-.login-footer a {
-  color: #999;
-  text-decoration: none;
-}
-
-.login-footer a:hover {
   text-decoration: underline;
 }

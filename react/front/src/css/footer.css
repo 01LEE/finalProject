@@ -4,6 +4,7 @@ html, body {
   padding: 0; /* 여백 제거 */
   height: 100%; /* 화면 전체 높이 */
   display: flex;
+  
   flex-direction: column; /* 상단부터 아래로 정렬 */
 }
 
@@ -14,12 +15,20 @@ main {
 
 /* 전체 푸터 스타일 */
 .footer {
-  background-color: #f9f9f9; /* 푸터 배경색 */
+  position: fixed; /* 푸터를 고정 */
+  display: flex;
+  align-items: center; /* 세로 정렬 */
+  justify-content: center; /* 좌우 배치 */
+  bottom: 0; /* 하단에 위치 */
+  left: 0; /* 좌측 시작점 */
+  width: 100%; /* 화면 전체 너비 */
+  height: 50px;
+  background-color: #101010; /* 배경색 카본 블랙 */
   padding: 20px 0; /* 위아래 패딩 */
-  text-align: center; /* 가운데 정렬 */
-  border-top: 1px solid #ddd; /* 위쪽 경계선 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  border-top: 3px solid #FF0000; /* 상단 경계선 레드 */
   font-family: Arial, sans-serif;
-  width: 100%; /* 화면 너비 전체 */
+  color: #A9A9A9; /* 텍스트 색상 실버 */
 }
   
 /* 링크 컨테이너 */
@@ -27,18 +36,19 @@ main {
   display: flex;
   justify-content: center; /* 가로 정렬 */
   flex-wrap: wrap; /* 화면 크기에 따라 줄바꿈 */
-  gap: 15px; /* 링크 간 간격 */
+  gap: 30px; /* 링크 간 간격 */
 }
 
 /* 개별 링크 스타일 */
 .footer-link {
-  color: #777; /* 링크 색상 */
-  font-size: 14px; /* 글자 크기 */
+  color: #A9A9A9; /* 링크 색상 레드 */
+  font-size: 15px; /* 글자 크기 */
   text-decoration: none; /* 밑줄 제거 */
   transition: color 0.2s ease-in-out; /* 호버 시 부드럽게 색상 변경 */
 }
 
 .footer-link:hover {
-  color: #000; /* 호버 시 색상 변경 */
+  color: #FF0000; /* 호버 시 색상 변경 (실버) */
   text-decoration: underline; /* 호버 시 밑줄 표시 */
+  font-weight: bold; /* 텍스트 굵게 */
 }
