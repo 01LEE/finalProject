@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.mapper.UsedCarMapper">
+
+    <!-- ResultMap 정의 -->
+    <resultMap id="UsedCarResultMap" type="com.rental.dto.UsedCarDTO">
+        <result column="vehicle_name" property="vehicleName" />
+        <result column="vehicle_no" property="vehicleNo" />
+        <result column="dealer_no" property="dealerNo" />
+        <result column="vehicle_type" property="vehicleType" />
+        <result column="brand" property="brand" />
+        <result column="model_year" property="modelYear" />
+        <result column="price" property="price" />
+        <result column="color" property="color" />
+        <result column="dealer_location" property="dealerLocation" />
+        <result column="fuel_type" property="fuelType" />
+        <result column="transmission" property="transmission" />
+        <result column="drive_type" property="driveType" />
+        <result column="used_car_image" property="usedCarImage" />
+        <result column="main_image" property="mainImage" />
+        <result column="vehicle_plate" property="vehiclePlate" />
+        <result column="car_km" property="car_km" />
+        <result column="seating_capacity" property="seatingCapacity" />
+    </resultMap>
+
+    <!-- 중고차 목록 조회 -->
+    <select id="getAllUsedCars" resultMap="UsedCarResultMap">
+        SELECT vehicle_name,
+               vehicle_no,
+               dealer_no,
+               vehicle_type,
+               brand,
+               model_year,
+               price,
+               color,
+               dealer_location,
+               fuel_type,
+               transmission,
+               drive_type,
+               used_car_image,
+               main_image, <!-- 대표 이미지 추가 -->
+               vehicle_plate,
+               car_km,
+               seating_capacity
+        FROM used_car
+    </select>
+
+    <!-- 차량 번호로 상세 조회 -->
+    <select id="findByVehicleNo" parameterType="String" resultMap="UsedCarResultMap">
+        SELECT vehicle_name,
+               vehicle_no,
+               dealer_no,
+               vehicle_type,
+               brand,
+               model_year,
+               price,
+               color,
+               dealer_location,
+               fuel_type,
+               transmission,
+               drive_type,
+               used_car_image,
+               main_image, <!-- 대표 이미지 추가 -->
+               vehicle_plate,
+               car_km,
+               seating_capacity
+        FROM used_car
+        WHERE vehicle_no = #{vehicleNo}
+    </select>
+
+    <!-- 차량 정보 수정 -->
+<update id="updateCarDetails">
+    UPDATE USED_CAR
+    SET vehicle_name = #{vehicleName},
+        brand = #{brand},
+        model_year = #{modelYear},
+        price = #{price},
+        color = #{color},
+        fuel_type = #{fuelType},
+        transmission = #{transmission},
+        drive_type = #{driveType},
+        seating_capacity = #{seatingCapacity},
+        used_car_image = #{imageUrl, jdbcType=VARCHAR}, <!-- `imageUrl`로 변경 -->
+        main_image = #{mainImage, jdbcType=VARCHAR},
+        car_km = #{carKm}
+    WHERE vehicle_no = #{vehicleNo}
+</update>
+
+</mapper>

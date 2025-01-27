@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.rental.mapper.UserMapper">
+
+    <!-- 로그인 시 사용자 확인 -->
+    <select id="selectIdUser" resultType="com.rental.dto.UserDTO">
+    SELECT user_id AS userId, u.*
+    FROM users u
+    WHERE user_id = #{userId} AND password = #{passWord}
+</select>
+ <select id="SelectId" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+ <select id="SelectNickname" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM users
+        WHERE name = #{nickname}
+    </select>
+  <select id="findById" resultType="com.rental.dto.UserDTO" parameterType="string">
+    SELECT 
+        user_no AS userNo,
+        user_id AS userId,
+        password,
+        name,
+        email,
+        phone,
+        role,
+        join_date AS joinDate,
+        driver_license AS driverLicense,
+        point
+    FROM users
+    WHERE user_id = #{userId}
+</select>
+
+  <select id="findId" resultType="String" parameterType="map">
+    SELECT user_id
+    FROM users
+    WHERE email = #{email} AND name = #{name}
+</select>
+<select id="SelectEmail" resultType="String" parameterType="map">
+  SELECT email
+  FROM users
+  WHERE user_id = #{userId}
+</select>
+
+<select id="confirmPassword" parameterType="map" resultType="int">
+  SELECT count(*)
+  FROM users
+  WHERE password = #{password} AND user_id = #{userId}
+</select>
+  <select id="selectPassword" resultType="com.rental.dto.UserDTO">
+        SELECT PASSWORD AS password
+        FROM USERS
+        WHERE USER_ID = #{userId}
+    </select>
+      <update id="changePassword">
+        UPDATE USERS
+        SET PASSWORD = #{password}
+        WHERE USER_ID = #{userId}
+    </update>
+
+<insert id="insertUser" parameterType="map">
+    INSERT INTO users (
+        user_no,
+        password,
+        name,
+        email,
+        phone,
+        role,
+        join_date,
+        driver_license,
+        point,
+        user_id
+    ) VALUES (
+        user_seq.NEXTVAL,
+        #{password},
+        #{nickname},
+        #{email},
+        '1234567890',
+        'USER',
+        SYSDATE,
+        null,
+        0,
+        #{userId}
+    )
+</insert>
+
+</mapper>
