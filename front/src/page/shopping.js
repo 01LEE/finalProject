@@ -53,7 +53,7 @@ const Shopping = () => {
       const params = {
         categoryMain: selectedCategory?.trim(),
         categorySub: selectedSubcategory?.trim(),
-        categoryDetail: selectedDetail?.trim()
+        categoryDetail: selectedDetail?.trim(),
       };
 
       console.log("Fetching data with params:", params);
@@ -165,6 +165,7 @@ const Shopping = () => {
             <table className="product-table">
               <thead>
                 <tr>
+                  <th>이미지</th>
                   <th>상품명</th>
                   <th>가격</th>
                   <th>대분류</th>
@@ -175,6 +176,17 @@ const Shopping = () => {
               <tbody>
                 {data.map((item) => (
                   <tr key={item.productId}>
+                    <td>
+                      {item.productImage ? (
+                        <img
+                          src={item.productImage} // Base64 이미지 URL 사용
+                          alt={item.productName}
+                          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                        />
+                      ) : (
+                        <span>이미지 없음</span>
+                      )}
+                    </td>
                     <td onClick={() => navigate(`/shopping/product/${item.productId}`)}>{item.productName}</td>
                     <td>{item.productPrice}</td>
                     <td>{item.categoryMain}</td>

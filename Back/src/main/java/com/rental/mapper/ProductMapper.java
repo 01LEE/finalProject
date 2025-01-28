@@ -15,4 +15,8 @@ public interface ProductMapper {
   int insertReview(ReviewDTO reviewDTO);
 
   List<ReviewDTO> getReviewsByProductId(int productId);
+
+List<String> getAllProductImages();
+
+void saveImagePath(Map<String, Object> params);
 }

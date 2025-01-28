@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rental.dto.ProductDTO;
 import com.rental.dto.ReviewDTO;
@@ -54,6 +54,7 @@ public class ShoppingController {
         List<ProductDTO> products = productService.selectProducts(params);
         return ResponseEntity.ok(products);
     }
+
     @PostMapping("/shopping/product/{productId}/review")
     public ResponseEntity<Map<String, Object>> addReview(
             @PathVariable int productId,
@@ -106,4 +107,51 @@ public class ShoppingController {
         return ResponseEntity.ok(reviews);
     }
 
+    // 이미지 업로드 (서비스 메서드 사용)
+    @PostMapping("/shopping/product/{productId}/uploadImage")
+    public ResponseEntity<String> uploadProductImage(@PathVariable int productId, @RequestParam("file") MultipartFile file) {
+        try {
+            String dbPath = productService.uploadImage(productId, file);
+            return ResponseEntity.ok(dbPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("이미지 업로드에 실패했습니다.");
+        }
+    }
+
+    // 이미지 가져오기 (서비스 메서드 사용)
+    @GetMapping("/shopping/product/{productId}/getImage")
+    public ResponseEntity<String> getProductImage(@PathVariable int productId) {
+        try {
+            String base64Image = productService.getBase64Image(productId);
+            return ResponseEntity.ok(base64Image);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("이미지를 가져오는 데 실패했습니다.");
+        }
+    }
+
+    // 전체 이미지 가져오기
+    @GetMapping("/shopping/product/images")
+    public ResponseEntity<List<String>> getAllProductImages() {
+        try {
+            List<String> images = productService.getAllProductImages();
+            return ResponseEntity.ok(images);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    // 이미지 경로 저장
+    @PostMapping("/shopping/product/{productId}/saveImagePath")
+    public ResponseEntity<String> saveImagePath(@PathVariable int productId, @RequestParam("path") String imagePath) {
+        try {
+            productService.saveImagePath(productId, imagePath);
+            return ResponseEntity.ok("이미지 경로 저장 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("이미지 경로 저장 실패");
+        }
+    }
 }
