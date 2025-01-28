@@ -1,74 +1,90 @@
-/* 전체 페이지 레이아웃 */
 .shopping-page {
-  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .header {
-  background-color: #333;
-  color: white;
-  padding: 10px 20px;
   text-align: center;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .content {
   display: flex;
-  height: calc(100vh - 100px); /* 헤더 제외 높이 */
 }
 
 .categories {
-  flex: 1; /* 좌측 카테고리 */
-  background-color: #f9f9f9;
-  padding: 20px;
-  overflow-y: auto;
+  width: 250px;
+  padding: 10px;
   border-right: 1px solid #ddd;
 }
 
 .category-section,
-.subcategory-section,
-.subcategory-detail-section {
-  margin-bottom: 20px;
+.subcategory-section {
+  margin-bottom: 15px;
 }
 
 .category-button {
+  display: block;
   width: 100%;
-  padding: 10px 15px;
-  font-size: 16px;
-  text-align: left;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
+  padding: 8px;
   margin-bottom: 5px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.category-button:hover {
-  background-color: #f1f1f1;
+  border: none;
+  background: #f8f8f8;
+  cursor: pointer;
+  text-align: left;
 }
 
 .category-button.active {
-  background-color: #007bff;
-  color: white;
+  background: #ddd;
+  font-weight: bold;
 }
 
 .main-content {
-  flex: 2; /* 우측 콘텐츠 */
+  flex-grow: 1;
   padding: 20px;
-  overflow-y: auto;
 }
 
-.product-table {
-  width: 100%;
-  border-collapse: collapse;
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-.product-table th,
-.product-table td {
+.product-card {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.product-table th {
-  background-color: #f2f2f2;
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+}
+
+.product-info {
+  padding: 10px;
+  text-align: center;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.product-price {
+  font-size: 14px;
+  color: red;
+  font-weight: bold;
 }

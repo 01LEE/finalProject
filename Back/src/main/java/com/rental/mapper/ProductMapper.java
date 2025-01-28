@@ -19,4 +19,6 @@ public interface ProductMapper {
 List<String> getAllProductImages();
 
 void saveImagePath(Map<String, Object> params);
+
+String getImagePathByProductId(int productId);
 }
