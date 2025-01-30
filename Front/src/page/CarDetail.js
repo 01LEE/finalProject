@@ -5,9 +5,12 @@ import '../css/UsedCarDetail.css';
 
 // CarPurchaseDetails 컴포넌트
 const CarPurchaseDetails = ({ carDetails }) => {
-    const formatPrice = (price) => {
-        if (typeof price === "string") return price; // "무료배송" 같은 텍스트 처리
-        return price.toLocaleString() + "원";
+    const navigate = useNavigate();
+
+    const handlePurchase = () => {
+        navigate('/used-cars/CarPointSettlement', {
+            state: { carDetails }
+        });
     };
 
     return (
@@ -19,32 +22,18 @@ const CarPurchaseDetails = ({ carDetails }) => {
                 <h3>총 예상 구매비용</h3>
                 <p>구매비용 계산기</p>
                 <ul>
-                    <li>
-                        <strong>차량가:</strong> {formatPrice(carDetails.purchaseDetails.vehiclePrice)}
-                    </li>
-                    <li>
-                        <strong>이전등록비:</strong> {formatPrice(carDetails.purchaseDetails.transferTax)}
-                    </li>
-                    <li>
-                        <strong>관리비용:</strong> {formatPrice(carDetails.purchaseDetails.managementFee)}
-                    </li>
-                    <li>
-                        <strong>등록신청대행수수료:</strong> {formatPrice(carDetails.purchaseDetails.registrationFee)}
-                    </li>
-                    <li>
-                        <strong>K Car Warranty 가입비:</strong> {formatPrice(carDetails.purchaseDetails.warrantyFee)}
-                    </li>
-                    <li>
-                        <strong>성능책임보험료:</strong> {formatPrice(carDetails.purchaseDetails.performanceInsurance)}
-                    </li>
-                    <li>
-                        <strong>배송비:</strong> {formatPrice(carDetails.purchaseDetails.deliveryFee)}
-                    </li>
+                    <li><strong>차량가:</strong> {carDetails.purchaseDetails.vehiclePrice.toLocaleString()}원</li>
+                    <li><strong>이전등록비:</strong> {carDetails.purchaseDetails.transferTax.toLocaleString()}원</li>
+                    <li><strong>관리비용:</strong> {carDetails.purchaseDetails.managementFee.toLocaleString()}원</li>
+                    <li><strong>등록신청대행수수료:</strong> {carDetails.purchaseDetails.registrationFee.toLocaleString()}원</li>
+                    <li><strong>K Car Warranty 가입비:</strong> {carDetails.purchaseDetails.warrantyFee.toLocaleString()}원</li>
+                    <li><strong>성능책임보험료:</strong> {carDetails.purchaseDetails.performanceInsurance.toLocaleString()}원</li>
+                    <li><strong>배송비:</strong> {carDetails.purchaseDetails.deliveryFee}</li>
                 </ul>
-                <div className="total-price">합계: {formatPrice(carDetails.totalPrice)}</div>
+                <div className="total-price">합계: {carDetails.totalPrice.toLocaleString()}원</div>
             </div>
             <div className="purchase-buttons">
-                <button className="home-service">홈서비스 바로구매</button>
+                <button className="home-service" onClick={handlePurchase}>홈서비스 바로구매</button>
                 <div className="availability">{carDetails.availability}</div>
                 <button className="direct-visit">직영점 방문 예약하기</button>
             </div>

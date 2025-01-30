@@ -10,6 +10,7 @@ const UsedCarBoard = () => {
     const itemsPerPage = 12;
 
     const [filters, setFilters] = useState({
+        vehicleName: '',
         brand: '',
         modelYear: '',
         minKm: '',
@@ -24,7 +25,73 @@ const UsedCarBoard = () => {
         color: '',
         seatingCapacity: '',
         transmission: '',
+        sortBy: 'car_km',  // 기본 정렬값
+        order: 'asc',  // 기본 오름차순 정렬
     });
+
+    const sortOptions = [
+        { label: '적은 주행거리 순', value: 'car_km_asc' },
+        { label: '많은 주행거리 순', value: 'car_km_desc' },
+        { label: '낮은 가격 순', value: 'price_asc' },
+        { label: '높은 가격 순', value: 'price_desc' },
+        { label: '최근 연식 순', value: 'model_year_desc' },
+        { label: '오래된 연식 순', value: 'model_year_asc' },
+    ];
+
+    const handleSearchChange = (e) => {
+        setFilters((prev) => ({
+            ...prev,
+            vehicleName: e.target.value,
+        }));
+    };
+
+    const handleSortChange = (e) => {
+        const selectedValue = e.target.value;
+        console.log("🔹 선택한 정렬 값:", selectedValue);
+    
+        // 선택된 값이 비어있으면 반환
+        if (!selectedValue) {
+            console.error("❌ 선택된 정렬 값이 없습니다.");
+            return;
+        }
+    
+        // 선택된 정렬 값을 언더스코어(_) 기준으로 분리
+        const parts = selectedValue.split("_");
+    
+        console.log("🔍 분리된 값:", parts);
+    
+        let sortBy, order;
+    
+        // "car_km_asc" → ["car", "km", "asc"]
+        // "model_year_desc" → ["model", "year", "desc"]
+        if (parts.length === 3) {
+            sortBy = parts[0] + "_" + parts[1]; // "car_km", "model_year"
+            order = parts[2]; // "asc", "desc"
+        } else if (parts.length === 2) {
+            sortBy = parts[0]; // "price"
+            order = parts[1]; // "asc", "desc"
+        } else {
+            console.error("❌ 정렬 값이 올바른 형식이 아닙니다:", selectedValue);
+            return;
+        }
+    
+        // order가 "asc" 또는 "desc"가 아닌 경우 예외 처리
+        if (!["asc", "desc"].includes(order)) {
+            console.error("❌ 잘못된 정렬 order 값:", order);
+            return;
+        }
+    
+        console.log("✅ 정렬 변경됨:", { sortBy, order });
+    
+        setFilters((prev) => ({
+            ...prev,
+            sortBy,
+            order,
+        }));
+    };
+    
+    
+    
 
     const priceOptions = [
         { label: '5백만 이하', value: '0-5000000' },
@@ -68,13 +135,19 @@ const UsedCarBoard = () => {
     };
 
     const fetchCars = (filterParams) => {
-        axios.get('http://localhost:9999/used-cars/getAllUsedCars', { params: filterParams })
-            .then((response) => {
-                setCars(response.data);
-            })
-            .catch((error) => {
-                console.error('Failed to fetch used cars:', error);
-            });
+        axios.get('http://localhost:9999/used-cars/getFilteredUsedCars', {
+            params: {
+                ...filterParams,
+                sortBy: filterParams.sortBy || 'car_km', // 기본 정렬 기준 설정
+                order: filterParams.order || 'asc', // 기본 정렬 순서 설정
+            },
+        })
+        .then((response) => {
+            setCars(response.data);
+        })
+        .catch((error) => {
+            console.error('Failed to fetch used cars:', error);
+        });
     };
 
     const blobToBase64 = (blobUrl) => {
@@ -92,8 +165,9 @@ const UsedCarBoard = () => {
     };
 
     useEffect(() => {
-        fetchCars({}); // 필터 없이 데이터 요청
-    }, []);
+        console.log("필터가 변경되어 API 호출:", filters);
+        fetchCars(filters);
+    }, [filters]);
 
     useEffect(() => {
         const filteredParams = { ...filters };
@@ -154,6 +228,21 @@ const UsedCarBoard = () => {
         <div className="used-car-board">
             <header className="header">
                 <h1>중고차 목록</h1>
+                <select onChange={(e) => handleSortChange(e)}>
+    <option value="">정렬 선택</option>
+    {sortOptions.map((option) => (
+        <option key={option.value} value={option.value}>
+            {option.label}
+        </option>
+    ))}
+</select>
+                <input
+                    type="text"
+                    placeholder="차량명을 입력하세요..."
+                    value={filters.vehicleName}
+                    onChange={handleSearchChange}
+                    className="search-input"
+                />
             </header>
 
             <div className="content">

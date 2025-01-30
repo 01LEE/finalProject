@@ -32,4 +32,24 @@ public interface UsedCarMapper {
             @Param("carKm") int carKm,
             @Param("mainImage") String mainImage // 추가된 대표 이미지 매개변수
     );
+
+    // ✅ 필터링된 중고차 데이터를 가져오는 메서드 (정렬 기능 추가)
+    List<UsedCarDTO> getFilteredUsedCars(
+            @Param("vehicleName") String vehicleName,
+            @Param("vehicleType") String vehicleType,
+            @Param("brand") String brand,
+            @Param("modelYear") Integer modelYear,
+            @Param("minPrice") Integer minPrice,
+            @Param("maxPrice") Integer maxPrice,
+            @Param("color") String color,
+            @Param("dealerLocation") String dealerLocation,
+            @Param("fuelType") String fuelType,
+            @Param("transmission") String transmission,
+            @Param("driveType") String driveType,
+            @Param("minKm") Integer minKm,
+            @Param("maxKm") Integer maxKm,
+            @Param("seatingCapacity") Integer seatingCapacity,
+            @Param("sortBy") String sortBy,  // ✅ 정렬 기준 추가
+            @Param("order") String order     // ✅ 정렬 방향 추가
+    );
 }

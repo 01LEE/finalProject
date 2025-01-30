@@ -86,8 +86,28 @@ public class UsedCarService {
         }
     }
 
-    public String saveFileWithImplementation(MultipartFile file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveFileWithImplementation'");
+    /**
+     * 🚀 필터링된 중고차 목록을 데이터베이스에서 직접 조회
+     */
+   
+     public List<UsedCarDTO> getFilteredUsedCars(
+        String vehicleName, String vehicleType, String brand, Integer modelYear, Integer minPrice, Integer maxPrice,
+        String color, String dealerLocation, String fuelType, String transmission, String driveType,
+        Integer minKm, Integer maxKm, Integer seatingCapacity, String sortBy, String order) {
+
+    // ✅ 유효한 정렬 기준인지 확인
+    List<String> validSortFields = Arrays.asList("car_km", "price", "model_year");
+    if (sortBy == null || !validSortFields.contains(sortBy)) {
+        sortBy = "car_km";  // 기본 정렬 기준 설정
     }
+
+    // ✅ 정렬 순서 확인
+    if (!"asc".equalsIgnoreCase(order) && !"desc".equalsIgnoreCase(order)) {
+        order = "asc";  // 기본 오름차순 정렬
+    }
+
+    return usedCarMapper.getFilteredUsedCars(
+            vehicleName, vehicleType, brand, modelYear, minPrice, maxPrice, color, dealerLocation,
+            fuelType, transmission, driveType, minKm, maxKm, seatingCapacity, sortBy, order);
+}
 }

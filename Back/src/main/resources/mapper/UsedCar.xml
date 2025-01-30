@@ -4,88 +4,130 @@
 
 <mapper namespace="com.rental.mapper.UsedCarMapper">
 
-    <!-- ResultMap 정의 -->
+   <!-- 🚗 ResultMap 정의 -->
     <resultMap id="UsedCarResultMap" type="com.rental.dto.UsedCarDTO">
-        <result column="vehicle_name" property="vehicleName" />
-        <result column="vehicle_no" property="vehicleNo" />
-        <result column="dealer_no" property="dealerNo" />
-        <result column="vehicle_type" property="vehicleType" />
-        <result column="brand" property="brand" />
-        <result column="model_year" property="modelYear" />
-        <result column="price" property="price" />
-        <result column="color" property="color" />
-        <result column="dealer_location" property="dealerLocation" />
-        <result column="fuel_type" property="fuelType" />
-        <result column="transmission" property="transmission" />
-        <result column="drive_type" property="driveType" />
-        <result column="used_car_image" property="usedCarImage" />
-        <result column="main_image" property="mainImage" />
-        <result column="vehicle_plate" property="vehiclePlate" />
-        <result column="car_km" property="car_km" />
-        <result column="seating_capacity" property="seatingCapacity" />
+        <result column="VEHICLE_NAME" property="vehicleName" />
+        <result column="VEHICLE_NO" property="vehicleNo" />
+        <result column="DEALER_NO" property="dealerNo" />
+        <result column="VEHICLE_TYPE" property="vehicleType" />
+        <result column="BRAND" property="brand" />
+        <result column="MODEL_YEAR" property="modelYear" />
+        <result column="PRICE" property="price" />
+        <result column="COLOR" property="color" />
+        <result column="DEALER_LOCATION" property="dealerLocation" />
+        <result column="FUEL_TYPE" property="fuelType" />
+        <result column="TRANSMISSION" property="transmission" />
+        <result column="DRIVE_TYPE" property="driveType" />
+        <result column="USED_CAR_IMAGE" property="usedCarImage" />
+        <result column="MAIN_IMAGE" property="mainImage" />
+        <result column="VEHICLE_PLATE" property="vehiclePlate" />
+        <result column="CAR_KM" property="car_km" />
+        <result column="SEATING_CAPACITY" property="seatingCapacity" />
     </resultMap>
 
-    <!-- 중고차 목록 조회 -->
+    <!-- 🚗 중고차 목록 조회 -->
     <select id="getAllUsedCars" resultMap="UsedCarResultMap">
-        SELECT vehicle_name,
-               vehicle_no,
-               dealer_no,
-               vehicle_type,
-               brand,
-               model_year,
-               price,
-               color,
-               dealer_location,
-               fuel_type,
-               transmission,
-               drive_type,
-               used_car_image,
-               main_image, <!-- 대표 이미지 추가 -->
-               vehicle_plate,
-               car_km,
-               seating_capacity
-        FROM used_car
+        SELECT * FROM USED_CAR
     </select>
 
-    <!-- 차량 번호로 상세 조회 -->
+    <!-- 🚗 차량 번호로 특정 차량 상세 조회 -->
     <select id="findByVehicleNo" parameterType="String" resultMap="UsedCarResultMap">
-        SELECT vehicle_name,
-               vehicle_no,
-               dealer_no,
-               vehicle_type,
-               brand,
-               model_year,
-               price,
-               color,
-               dealer_location,
-               fuel_type,
-               transmission,
-               drive_type,
-               used_car_image,
-               main_image, <!-- 대표 이미지 추가 -->
-               vehicle_plate,
-               car_km,
-               seating_capacity
-        FROM used_car
-        WHERE vehicle_no = #{vehicleNo}
+        SELECT * FROM USED_CAR
+        WHERE VEHICLE_NO = #{vehicleNo}
     </select>
 
-    <!-- 차량 정보 수정 -->
-<update id="updateCarDetails">
-    UPDATE USED_CAR
-    SET vehicle_name = #{vehicleName},
-        brand = #{brand},
-        model_year = #{modelYear},
-        price = #{price},
-        color = #{color},
-        fuel_type = #{fuelType},
-        transmission = #{transmission},
-        drive_type = #{driveType},
-        seating_capacity = #{seatingCapacity},
-        used_car_image = #{imageUrl, jdbcType=VARCHAR}, <!-- `imageUrl`로 변경 -->
-        main_image = #{mainImage, jdbcType=VARCHAR},
-        car_km = #{carKm}
-    WHERE vehicle_no = #{vehicleNo}
-</update>
+    <!-- 🚀 중고차 검색 및 필터링 (정렬 추가) -->
+      <select id="getFilteredUsedCars" resultMap="UsedCarResultMap">
+        SELECT * FROM USED_CAR
+        WHERE 1=1
+        <if test="vehicleName != null and vehicleName != ''">
+            AND VEHICLE_NAME LIKE '%' || #{vehicleName} || '%'
+        </if>
+        <if test="vehicleType != null and vehicleType != ''">
+            AND VEHICLE_TYPE = #{vehicleType}
+        </if>
+        <if test="brand != null and brand != ''">
+            AND BRAND = #{brand}
+        </if>
+        <if test="modelYear != null">
+            AND MODEL_YEAR = #{modelYear}
+        </if>
+        <if test="minPrice != null">
+            AND PRICE &gt;= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            AND PRICE &lt;= #{maxPrice}
+        </if>
+        <if test="color != null and color != ''">
+            AND COLOR = #{color}
+        </if>
+        <if test="dealerLocation != null and dealerLocation != ''">
+            AND DEALER_LOCATION = #{dealerLocation}
+        </if>
+        <if test="fuelType != null and fuelType != ''">
+            AND FUEL_TYPE = #{fuelType}
+        </if>
+        <if test="transmission != null and transmission != ''">
+            AND TRANSMISSION = #{transmission}
+        </if>
+        <if test="driveType != null and driveType != ''">
+            AND DRIVE_TYPE = #{driveType}
+        </if>
+        <if test="minKm != null">
+            AND CAR_KM &gt;= #{minKm}
+        </if>
+        <if test="maxKm != null">
+            AND CAR_KM &lt;= #{maxKm}
+        </if>
+        <if test="seatingCapacity != null">
+            AND SEATING_CAPACITY = #{seatingCapacity}
+        </if>
+
+        <!-- 🚀 안전한 정렬 처리 -->
+        ORDER BY 
+        <choose>
+            <when test="sortBy == 'car_km'">
+                CAR_KM
+            </when>
+            <when test="sortBy == 'price'">
+                PRICE
+            </when>
+            <when test="sortBy == 'model_year'">
+                MODEL_YEAR
+            </when>
+            <otherwise>
+                CAR_KM  <!-- 기본 정렬: 주행거리순 -->
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!-- 🚗 차량 정보 수정 -->
+    <update id="updateCarDetails">
+        UPDATE USED_CAR
+        SET VEHICLE_NAME = #{vehicleName},
+            BRAND = #{brand},
+            MODEL_YEAR = #{modelYear},
+            PRICE = #{price},
+            COLOR = #{color},
+            FUEL_TYPE = #{fuelType},
+            TRANSMISSION = #{transmission},
+            DRIVE_TYPE = #{driveType},
+            SEATING_CAPACITY = #{seatingCapacity},
+            USED_CAR_IMAGE = #{imageUrl, jdbcType=VARCHAR},
+            MAIN_IMAGE = #{mainImage, jdbcType=VARCHAR},
+            CAR_KM = #{carKm}
+        WHERE VEHICLE_NO = #{vehicleNo}
+    </update>
+
+
 
 </mapper>
