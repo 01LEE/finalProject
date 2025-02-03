@@ -16,4 +16,6 @@ public interface UserMapper {
     int changePassword(String userId, String password);
     int insertUser(String userId, String password, String email, String name, String nickname);
     UserDTO findById(String userId);
+    int MatchKakaoEmail(String kakaoEmail);
+    UserDTO findByEmail(String email);
 }

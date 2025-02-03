@@ -3,7 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../store/authSlice';
 import apiAxios from '../lib/apiAxios';
-import '../css/Login.css'; // CSS 파일을 import
+import Kakao from '../components/kakao_login';
+
+import '../css/Login.css'; // CSS 파일이 제대로 적용되고 있는지 확인!
 
 export default function Login() {
     const id = useRef(null);
@@ -51,6 +53,7 @@ export default function Login() {
                         <label htmlFor="rememberMe" className="checkbox-label">로그인 상태 유지</label>
                     </div>
                     <button onClick={loginHandler} className="login-button">로그인</button>
+                    <div><Kakao /></div>
                 </div>
                 <div className="links">
                     <a href="/forgotPw" className="link">비밀번호 찾기</a>
@@ -59,6 +62,7 @@ export default function Login() {
                     <span className="separator">|</span>
                     <a href="/signUp" className="link">회원가입</a>
                 </div>
+                
             </main>
             <footer className="login-footer">
                 <a href="/terms" className="footer-link">이용약관</a>

@@ -63,4 +63,15 @@ public class UserService {
         System.out.println("findById : " + userId);
         return mapper.findById(userId);
     }
+
+    public UserDTO findByEmail(String email) {
+        System.out.println("findByEmail : " + email);
+        return mapper.findByEmail(email);
+    }
+    
+    
+
+    public int MatchKakaoEmail(String kakaoEmail) {
+        return mapper.MatchKakaoEmail(kakaoEmail);
+    }
 }

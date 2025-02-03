@@ -104,3 +104,38 @@ body {
     text-decoration: none;
     color: #000;
 }
+
+/* kakao login css */
+
+
+.kakao-button {
+    padding: 10px !important;
+    font-size: 16px !important;
+    color: #3C1E1E !important; /* 카카오 브라운 */
+    background-color: #FEE500 !important; /* 카카오 노란색 */
+    border: 1px solid #E4C700 !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    position: relative !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.kakao-button img {
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 10px !important;
+}
+
+.kakao-button:hover {
+    background-color: #E4C700 !important;
+}
+
+.kakao-button:active {
+    background-color: #D6B500 !important;
+}

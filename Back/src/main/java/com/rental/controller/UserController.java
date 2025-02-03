@@ -110,6 +110,7 @@ public class UserController {
         String nickname = request.get("nickname");
         System.out.println("nickname : " + nickname);
         int count = userService.SelectNickname(nickname);
+        System.out.println("count : " + count);
 
         return ResponseEntity.ok(count);
     }

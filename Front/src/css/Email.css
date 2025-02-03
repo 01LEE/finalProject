@@ -25,6 +25,15 @@
     box-sizing: border-box;
 }
 
+.email-input.valid {
+    color: black !important;
+    /* ✅ 글자 색상은 검정 유지 */
+}
+
+.verification-input.invalid {
+    color: black !important;
+}
+
 .email-input:focus,
 .verification-input:focus {
     border-color: #43484d;
@@ -58,9 +67,11 @@
 }
 
 .input-description.valid {
-    color: #28a745; /* Green for valid messages */
+    color: #28a745;
+    /* Green for valid messages */
 }
 
 .input-description.invalid {
-    color: #dc3545; /* Red for invalid messages */
+    color: #dc3545;
+    /* Red for invalid messages */
 }

@@ -90,4 +90,25 @@
     )
 </insert>
 
+<select id="MatchKakaoEmail" resultType="int">
+    SELECT COUNT(*) FROM users WHERE email = #{kakaoEmail}
+</select>
+
+<select id="findByEmail" resultType="com.rental.dto.UserDTO" parameterType="String">
+    SELECT 
+        user_no AS userNo,
+        user_id AS userId,
+        password,
+        name,
+        email,
+        phone,
+        role,
+        join_date AS joinDate,
+        driver_license AS driverLicense,
+        point
+    FROM users
+    WHERE email = #{email}
+</select>
+
+
 </mapper>
