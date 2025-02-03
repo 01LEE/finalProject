@@ -1,0 +1,141 @@
+/* 공통 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    text-align: center;
+}
+
+
+.login-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-item {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.menu-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+}
+
+/* 메인 */
+.login-main {
+    margin: 20px auto;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 10px;
+}
+
+.login-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.checkbox-label {
+    font-size: 14px;
+}
+
+.login-button {
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 링크 */
+.links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.link {
+    text-decoration: none;
+    color: #000;
+}
+
+.separator {
+    margin: 0 5px;
+    color: #000;
+}
+
+/* 푸터 */
+.login-footer {
+    margin-top: 30px;
+    font-size: 12px;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000;
+}
+
+/* kakao login css */
+
+
+.kakao-button {
+    padding: 10px !important;
+    font-size: 16px !important;
+    color: #3C1E1E !important; /* 카카오 브라운 */
+    background-color: #FEE500 !important; /* 카카오 노란색 */
+    border: 1px solid #E4C700 !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    position: relative !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.kakao-button img {
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 10px !important;
+}
+
+.kakao-button:hover {
+    background-color: #E4C700 !important;
+}
+
+.kakao-button:active {
+    background-color: #D6B500 !important;
+}
