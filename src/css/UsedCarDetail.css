@@ -1,0 +1,78 @@
+.car-detail-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.header {
+    background-color: black;
+    color: white;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.image-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-image {
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.purchase-info {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+.purchase-info h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+}
+
+.purchase-info p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.buy-button,
+.reserve-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.buy-button {
+    background-color: red;
+    color: white;
+}
+
+.reserve-button {
+    background-color: black;
+    color: white;
+}
+
+.buy-button:hover {
+    background-color: darkred;
+}
+
+.reserve-button:hover {
+    background-color: gray;
+}

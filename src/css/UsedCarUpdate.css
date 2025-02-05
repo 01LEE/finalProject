@@ -1,0 +1,161 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #eef2f5;
+    color: #333;
+}
+
+.edit-car-form {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 12px;
+    background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-car-form:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.edit-car-form h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edit-car-form label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+}
+
+.edit-car-form input[type="text"],
+.edit-car-form input[type="number"],
+.edit-car-form input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-car-form input[type="text"]:focus,
+.edit-car-form input[type="number"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.edit-car-form button {
+    display: block;
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+}
+
+.edit-car-form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.edit-car-form button[type="button"] {
+    width: auto;
+    background-color: #e74c3c;
+    font-size: 12px;
+    padding: 6px 10px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-car-form button[type="button"]:hover {
+    background-color: #c0392b;
+    transform: scale(1.1);
+}
+
+.edit-car-form img {
+    max-width: 120px;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-car-form img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.edit-car-form img.selected-image {
+    border: 4px solid #e74c3c;
+    box-shadow: 0 6px 15px rgba(231, 76, 60, 0.5);
+}
+
+.edit-car-form .preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-car-form .preview-container .image-preview {
+    position: relative;
+    display: inline-block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-car-form .preview-container .image-preview button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-car-form .preview-container .image-preview button:hover {
+    background-color: rgba(255, 0, 0, 0.8);
+    transform: scale(1.1);
+}
