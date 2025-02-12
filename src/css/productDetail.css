@@ -1,0 +1,99 @@
+/* ✅ 제품 상세 페이지 전용 */
+.product-detail-page {
+  background-color: #000;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 0;
+}
+
+/* ✅ 제품 상세 컨테이너 */
+.product-detail-page .product-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ✅ 제품 정보 */
+.product-detail-page .product-info {
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* ✅ 제품 상세 정보 */
+.product-detail-page .product-details {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+/* ✅ 제품 상세 정보 테이블 */
+.product-detail-page .product-details table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-detail-page .product-details th,
+.product-detail-page .product-details td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: center;
+}
+
+.product-detail-page .product-details th {
+  background: red;
+  color: white;
+}
+
+/* ✅ 옵션 선택 */
+.product-detail-page .options-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+/* ✅ 버튼 및 선택 박스 정렬 */
+.product-detail-page .cart-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.product-detail-page .cart-buttons button {
+  flex: 1;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.product-detail-page .add-to-cart {
+  background: red;
+  color: white;
+}
+
+.product-detail-page .checkout {
+  background: white;
+  color: black;
+}
+
+.product-detail-page .cart-buttons button:hover {
+  opacity: 0.8;
+}
