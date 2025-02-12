@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.mapper.PostMapper">
+    <!-- ✅ 모든 게시글 조회 -->
+    <select id="getAllPosts" resultType="com.rental.dto.PostDTO">
+        SELECT POST_NO AS postNo, USER_NO AS userNo, TITLE AS title, 
+               CONTENT AS content, CREATE_DATE AS createDate, UPDATED_DATE AS updatedDate
+        FROM POST 
+        ORDER BY CREATE_DATE DESC
+    </select>
+
+    <!-- ✅ 단일 게시글 조회 (중복 제거 후 유지) -->
+    <select id="getPostById" parameterType="int" resultType="com.rental.dto.PostDTO">
+        SELECT POST_NO AS postNo, USER_NO AS userNo, TITLE AS title, 
+               CONTENT AS content, CREATE_DATE AS createDate, UPDATED_DATE AS updatedDate
+        FROM POST 
+        WHERE POST_NO = #{postNo}
+    </select>
+
+    <!-- ✅ 게시글 등록 -->
+    <insert id="insertPost" parameterType="com.rental.dto.PostDTO">
+        INSERT INTO POST (POST_NO, USER_NO, TITLE, CONTENT, CREATE_DATE, UPDATED_DATE)
+        VALUES (POST_SEQ.NEXTVAL, #{userNo}, #{title}, #{content}, SYSDATE, SYSDATE)
+    </insert>
+
+    <!-- ✅ 최신 게시글 가져오기 -->
+    <select id="getLatestPostByUser" parameterType="int" resultType="com.rental.dto.PostDTO">
+        SELECT POST_NO AS postNo, USER_NO AS userNo, TITLE AS title, 
+               CONTENT AS content, CREATE_DATE AS createDate, UPDATED_DATE AS updatedDate
+        FROM POST 
+        WHERE USER_NO = #{userNo} 
+        ORDER BY CREATE_DATE DESC 
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+</mapper>
+

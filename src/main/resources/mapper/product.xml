@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.mapper.ProductMapper">
+
+    <!-- ProductDTO 필드 매핑 결과 설정 -->
+    <resultMap id="ProductResultMap" type="com.rental.dto.ProductDTO">
+        <result property="productId" column="product_id" />
+        <result property="productPrice" column="product_price" />
+        <result property="productName" column="product_name" />
+        <result property="categoryMain" column="category_main" />
+        <result property="categorySub" column="category_sub" />
+        <result property="categoryDetail" column="category_detail" />
+        <result property="productImage" column="product_image" />
+    </resultMap>
+
+    <!--제품 조회 -->
+    <select id="selectProducts" resultMap="ProductResultMap" parameterType="map">
+        SELECT 
+            product_id, 
+            product_price, 
+            product_name, 
+            category_main, 
+            category_sub, 
+            category_detail, 
+            product_image
+        FROM 
+            product
+        WHERE 
+            1=1
+            <if test="categoryMain != null and categoryMain != ''">
+                AND category_main = #{categoryMain}
+            </if>
+            <if test="categorySub != null and categorySub != ''">
+                AND category_sub = #{categorySub}
+            </if>
+            <if test="categoryDetail != null and categoryDetail != ''">
+    AND category_detail LIKE '%' || #{categoryDetail} || '%'
+</if>
+    </select>
+     <!-- 리뷰 추가 -->
+    <insert id="insertReview" parameterType="com.rental.dto.ReviewDTO">
+    INSERT INTO review (
+        review_no,
+        product_id,
+        user_no,
+        user_id,       <!-- USER_ID 추가 -->
+        content,
+        created_date,
+        evaluation
+    ) VALUES (
+        review_no_seq.NEXTVAL,  <!-- 시퀀스를 사용 -->
+        #{productId},
+        #{userNo},
+        #{userId},    <!-- USER_ID 값 삽입 -->
+        #{content},
+        CURRENT_TIMESTAMP,
+        #{evaluation}
+    )
+</insert>
+
+    <resultMap id="ReviewResultMap" type="com.rental.dto.ReviewDTO">
+    <result property="reviewNo" column="review_no"/>
+    <result property="productId" column="product_id"/>
+    <result property="userNo" column="user_no"/>
+    <result property="content" column="content"/>
+    <result property="createdDate" column="created_date"/>
+    <result property="evaluation" column="evaluation"/>
+    <result property="userId" column="user_id"/>
+</resultMap>
+
+<select id="getReviewsByProductId" resultMap="ReviewResultMap">
+    SELECT review_no, product_id, user_no, content, created_date, evaluation, user_id
+    FROM review
+    WHERE product_id = #{productId}
+</select>
+
+<select id="getAllProductImages" resultType="string">
+        SELECT PRODUCT_IMAGE
+        FROM PRODUCT
+    </select>
+
+    <!-- 이미지 경로 저장 -->
+    <update id="saveImagePath">
+        UPDATE PRODUCT
+        SET PRODUCT_IMAGE = #{productImage}
+        WHERE PRODUCT_ID = #{productId}
+    </update>
+    
+    <select id="getImagePathByProductId" resultType="string">
+        SELECT product_image
+        FROM product
+        WHERE product_id = #{productId}
+    </select>
+
+      <resultMap id="ProductDetailResultMap" type="com.rental.dto.ProductDetailDTO">
+        <result property="productId" column="product_id"/>
+        <result property="productCount" column="product_count"/>
+        <result property="productColor" column="product_color"/>
+        <result property="storeLocation" column="store_location"/>
+        <result property="productImage" column="product_image"/>
+        <result property="productPrice" column="product_price"/>
+    </resultMap>
+
+    <!-- ✅ `product` 테이블과 조인하여 가격, 이미지까지 가져오기 -->
+    <select id="getProductDetailsByProductId" resultMap="ProductDetailResultMap">
+        SELECT 
+            pd.product_id, 
+            pd.product_count, 
+            pd.product_color, 
+            pd.store_location,
+            p.product_image, 
+            p.product_price
+        FROM product_detail pd
+        JOIN product p ON pd.product_id = p.product_id
+        WHERE pd.product_id = #{productId}
+    </select>
+</mapper>
