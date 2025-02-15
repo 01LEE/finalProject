@@ -1,0 +1,225 @@
+/* Global Reset and Box Sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set the root font size for easier rem unit calculations */
+:root {
+    font-size: 62.5%; /* 1rem = 10px */
+}
+
+/* General Body and HTML styling */
+body, html {
+    width: 100%;
+    color: #54555a;
+}
+
+body {
+    font-size: 1.6rem;
+    font-weight: 400;
+    font-family: "Spoqa Han Sans Neo", -apple-system, BlinkMacSystemFont, "Malgun Gothic", Roboto, "Helvetica Neue", sans-serif;
+    text-align: left;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-break: keep-all;
+}
+
+/* Main container with flexbox */
+.used-car-board {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* 90% → 100% 로 변경 */
+    font-family: Arial, sans-serif;
+    margin: 0; /* margin-left, margin-right 제거 */
+}
+
+/* Sidebar (filter section) */
+.sidebar {
+    width: 300px; /* 고정 너비 */
+    max-height: 73vh; /* 전체 화면 높이의 80%까지만 차지하도록 설정 */
+    background-color: black; /* 배경 블랙 */
+    padding: 15px;
+    border-right: 1px solid #444; /* 우측 테두리 */
+    overflow-y: auto;
+    padding-top: 10px;
+}
+
+.sidebar h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Adjust the filter inputs to smaller size */
+.dropdown, select {
+    width: 100%;
+    padding: 8px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-bottom: 12px;
+    cursor: pointer;
+    position: relative;
+}
+
+.dropdown-toggle {
+    padding: 8px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+}
+
+.arrow {
+    margin-left: 10px;
+    transition: transform 0.3s;
+}
+
+.arrow.open {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+.dropdown-item {
+    padding: 10px;
+    text-align: left;
+    width: 100%;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Car Listings */
+.car-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    width: 75%;
+}
+
+/* Individual car card style */
+.car-card {
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    background-color: #ffffff;
+    transition: box-shadow 0.3s ease;
+}
+
+.car-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.car-card h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.car-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Pagination Style */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    margin: 0 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination button:disabled {
+    background-color: #ddd;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Adjust main content to align filter and car list */
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    background-color: black;
+    margin: 0 auto;
+}
+
+/* Make sure the car list and sidebar have space */
+.car-list {
+    flex: 1;
+}
+
+/* Additional Styles for Filter Items */
+.filter-group {
+    margin-bottom: 10px;
+}
+
+/* 색상 필터 버튼 스타일 */
+.color-box {
+    background-color: transparent;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 5px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
+/* 선택된 색상에 대한 스타일 */
+.color-box.selected {
+    border: 2px solid #007bff;
+}
+
+.header.header{
+    background-color: black;
+}
+
+

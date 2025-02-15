@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.mapper.CommentMapper">
+
+    <!-- 특정 게시글의 댓글 목록 조회 -->
+    <select id="getCommentsByPost" parameterType="int" resultType="com.rental.dto.CommentDTO">
+        SELECT * FROM COMMENTS WHERE POST_NO = #{postNo} ORDER BY CREATED_DATE ASC
+    </select>
+
+    <!-- 댓글 등록 -->
+    <insert id="insertComment" parameterType="com.rental.dto.CommentDTO" useGeneratedKeys="true" keyProperty="commentNo">
+        INSERT INTO COMMENTS (COMMENT_NO, POST_NO, USER_NO, CONTENT, CREATED_DATE)
+        VALUES (COMMENT_SEQ.NEXTVAL, #{postNo}, #{userNo}, #{content}, SYSDATE)
+    </insert>
+
+    <!-- 최신 댓글 조회 -->
+    <select id="getLatestCommentByPost" parameterType="int" resultType="com.rental.dto.CommentDTO">
+        SELECT * FROM COMMENTS WHERE POST_NO = #{postNo} 
+        ORDER BY CREATED_DATE DESC 
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
+</mapper>

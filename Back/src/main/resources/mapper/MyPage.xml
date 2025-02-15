@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.mapper.MyPageMapper">
+
+    <!-- 사용자 ID를 이용하여 보유 포인트 조회 -->
+    <select id="getUserInfo" parameterType="string" resultType="com.rental.dto.UserDTO">
+        SELECT *
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+    <select id="confirmPasword" resultType="int" >
+        SELECT count(*)
+        FROM users
+        WHERE password = #{password} AND user_id = #{userId}
+    
+    </select>
+
+    <select id="checkKakao" resultType="int">
+        SELECT count(*)
+        FROM users
+        WHERE user_id = #{userId} AND is_kakao = 1
+    </select>
+
+    <select id="getUserPoint" parameterType="int" resultType="int">
+        SELECT point FROM users WHERE user_no = #{userNo}
+    </select>
+
+    <!-- ✅ 사용자 포인트 차감 -->
+    <update id="updateUserPoint">
+        UPDATE users 
+        SET point = #{newPoint} 
+        WHERE user_no = #{userNo}
+    </update>
+
+</mapper>

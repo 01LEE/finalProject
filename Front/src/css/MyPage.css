@@ -1,0 +1,85 @@
+.mypage-container {
+    background-color: #f8f9fa;
+    color: #212529;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+}
+
+.mypage-content {
+    flex: 1;
+    padding: 30px;
+}
+
+.mypage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 20px;
+}
+
+.mypage-header .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mypage-header .profile-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.mypage-content .section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table-container th, .table-container td {
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: left;
+}
+
+.table-container th {
+    background: #f1f3f5;
+}
+
+.more-button {
+    display: block;
+    margin-top: 10px;
+    text-align: right;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.button-red {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
