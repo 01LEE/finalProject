@@ -1,0 +1,150 @@
+/* 본문(SignUp 페이지) 영역만 스타일 적용 */
+
+/* 회원가입 컨테이너 */
+.signup-container {
+    width: 400px;
+    margin: 50px auto; /* 페이지 중앙 정렬 */
+    padding: 25px;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 타이틀 */
+.signup-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 입력 폼 스타일 */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 입력 필드 */
+.signup-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.signup-input:focus {
+    border-color: #007bff;
+    background: #fff;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 아이디 & 닉네임 확인 버튼 */
+.check-button {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.check-button:hover {
+    background-color: #0056b3;
+}
+
+/* 비밀번호 검증 메시지 */
+.input-description {
+    font-size: 13px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+.valid {
+    color: green;
+}
+
+.invalid {
+    color: red;
+}
+
+/* 주소 검색 필드 정렬 */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 검색 버튼 */
+.search-button {
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #218838;
+}
+
+/* 가입하기 버튼 */
+.signup-next-button {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.signup-next-button:hover {
+    background-color: #555;
+}
+
+/* 주소 검색 모달 */
+.address-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* 모달 닫기 버튼 */
+.close-button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    padding: 10px;
+    background: #dc3545;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-button:hover {
+    background: #c82333;
+}

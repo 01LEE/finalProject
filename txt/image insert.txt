@@ -1,0 +1,22 @@
+ @GetMapping("/shopping/product/images")
+    public ResponseEntity<List<String>> getAllProductImages() {
+        try {
+            List<String> images = productService.getAllProductImages();
+            return ResponseEntity.ok(images);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    // 이미지 경로 저장
+    @PostMapping("/shopping/product/{productId}/saveImagePath")
+    public ResponseEntity<String> saveImagePath(@PathVariable int productId, @RequestParam("path") String imagePath) {
+        try {
+            productService.saveImagePath(productId, imagePath);
+            return ResponseEntity.ok("이미지 경로 저장 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("이미지 경로 저장 실패");
+        }
+    }

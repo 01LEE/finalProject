@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.rental.mapper.UserMapper">
+
+    <!-- 로그인 시 사용자 확인 -->
+    <select id="selectIdUser" resultType="com.rental.dto.UserDTO">
+    SELECT user_id AS userId, u.*
+    FROM users u
+    WHERE user_id = #{userId} AND password = #{passWord}
+</select>
+ <select id="SelectId" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+ <select id="SelectNickname" resultType="int" parameterType="String">
+        SELECT COUNT(*)
+        FROM users
+        WHERE name = #{nickname}
+    </select>
+  <select id="findById" resultType="com.rental.dto.UserDTO" parameterType="string">
+    SELECT 
+        user_no AS userNo,
+        user_id AS userId,
+        password,
+        name,
+        email,
+        phone,
+        role,
+        join_date AS joinDate,
+        driver_license AS driverLicense,
+        point
+    FROM users
+    WHERE user_id = #{userId}
+</select>
+
+  <select id="findId" resultType="String" parameterType="map">
+    SELECT user_id
+    FROM users
+    WHERE email = #{email} AND name = #{name}
+</select>
+<select id="SelectEmail" resultType="String" parameterType="map">
+  SELECT email
+  FROM users
+  WHERE user_id = #{userId}
+</select>
+
+<select id="confirmPassword" parameterType="map" resultType="int">
+  SELECT count(*)
+  FROM users
+  WHERE password = #{password} AND user_id = #{userId}
+</select>
+  <select id="selectPassword" resultType="com.rental.dto.UserDTO">
+        SELECT PASSWORD AS password
+        FROM USERS
+        WHERE USER_ID = #{userId}
+    </select>
+      <update id="changePassword">
+        UPDATE USERS
+        SET PASSWORD = #{password}
+        WHERE USER_ID = #{userId}
+    </update>
+
+<insert id="insertUser" parameterType="map">
+    INSERT INTO users (
+        user_no,
+        password,
+        name,
+        email,
+        phone,
+        role,
+        join_date,
+        driver_license,
+        point,
+        user_id,
+        address,  <!-- 추가된 address 컬럼 -->
+        address_detail
+    ) VALUES (
+        user_seq.NEXTVAL,
+        #{password},
+        #{nickname},
+        #{email},
+        '1234567890',
+        'USER',
+        SYSDATE,
+        null,
+        0,
+        #{userId},
+        #{address}, <!-- address 값 추가 -->
+        #{addressDetail}
+    )
+</insert>
+
+
+<select id="MatchKakaoEmail" resultType="int">
+    SELECT COUNT(*) FROM users WHERE email = #{kakaoEmail}
+</select>
+
+<select id="findByEmail" resultType="com.rental.dto.UserDTO" parameterType="String">
+    SELECT 
+        user_no AS userNo,
+        user_id AS userId,
+        password,
+        name,
+        email,
+        phone,
+        role,
+        join_date AS joinDate,
+        driver_license AS driverLicense,
+        point
+    FROM users
+    WHERE email = #{email}
+</select>
+
+<select id="findUserNoByUserId" resultType="int">
+    SELECT user_no
+    FROM users
+    WHERE user_id = #{userId}
+</select>
+
+<select id="getPaymentUser" parameterType="string" resultType="com.rental.dto.UserDTO">
+        SELECT email, name, phone 
+        FROM users 
+        WHERE user_id = #{userId}
+    </select>
+
+<update id="updatePoint">
+    UPDATE users
+    SET point = point + #{point}
+    WHERE name = #{name}
+</update>
+
+<!-- kakao 인증 유/무 확인 -->
+<update id="setIsKakao" >
+    update users
+    set IS_KAKAO = 1
+    where user_id = #{userId}
+</update> 
+
+</mapper>

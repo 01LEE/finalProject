@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.mapper.UsedCarMapper">
+
+    <!-- 기존 UsedCarResultMap 정의 (이미지 테이블 별도 관리) -->
+    <resultMap id="UsedCarResultMap" type="com.rental.dto.UsedCarDTO">
+        <result column="VEHICLE_NAME" property="vehicleName" />
+        <result column="VEHICLE_NO" property="vehicleNo" />
+        <result column="DEALER_NO" property="dealerNo" />
+        <result column="VEHICLE_TYPE" property="vehicleType" />
+        <result column="BRAND" property="brand" />
+        <result column="MODEL_YEAR" property="modelYear" />
+        <result column="PRICE" property="price" />
+        <result column="COLOR" property="color" />
+        <result column="DEALER_LOCATION" property="dealerLocation" />
+        <result column="FUEL_TYPE" property="fuelType" />
+        <result column="TRANSMISSION" property="transmission" />
+        <result column="DRIVE_TYPE" property="driveType" />
+        <result column="VEHICLE_PLATE" property="vehiclePlate" />
+        <result column="CAR_KM" property="carKm" />
+        <result column="SEATING_CAPACITY" property="seatingCapacity" />
+        <result column="MAIN_IMAGE" property="mainImage" />
+        <result column="DESCRIPTION" property="description" />
+        <!-- 차량별 이미지 목록 매핑 -->
+        <collection property="usedCarImages" ofType="com.rental.dto.UsedCarImageDTO">
+            <result column="IMAGE_ID" property="imageId" />
+            <result column="IMAGE_URL" property="imageUrl"/>
+            <result column="MAIN_IMAGE" property="mainImage"/>
+        </collection>
+    </resultMap>
+
+    <!-- 중고차 목록 조회 -->
+    <select id="getAllUsedCars" resultMap="UsedCarResultMap">
+        SELECT UC.*, 
+               COALESCE(UCI.IMAGE_ID, 0) AS IMAGE_ID, 
+               COALESCE(UCI.IMAGE_URL, 'default_image.jpg') AS IMAGE_URL,
+               COALESCE(UCI.MAIN_IMAGE, 'N') AS MAIN_IMAGE
+        FROM USED_CAR UC
+        LEFT JOIN USED_CAR_IMAGE UCI ON UC.VEHICLE_NO = UCI.VEHICLE_NO
+        WHERE UC.STATUS = 0  <!-- 활성 게시물만 조회 -->
+        ORDER BY UC.VEHICLE_NO ASC, UCI.IMAGE_ID ASC
+    </select>
+
+    <!-- 차량 번호로 특정 차량 상세 조회 -->
+    <select id="findByVehicleNo" parameterType="String" resultMap="UsedCarResultMap">
+        SELECT UC.*, UCI.IMAGE_ID, UCI.IMAGE_URL, UCI.MAIN_IMAGE
+        FROM USED_CAR UC
+        LEFT JOIN USED_CAR_IMAGE UCI ON UC.VEHICLE_NO = UCI.VEHICLE_NO
+        WHERE UC.VEHICLE_NO = #{vehicleNo}
+          AND UC.STATUS = 0  <!-- 활성 게시물만 조회 -->
+        ORDER BY UCI.IMAGE_ID ASC
+    </select>
+
+    <!-- 필터링된 중고차 목록 조회 -->
+    <select id="getFilteredUsedCars" resultMap="UsedCarResultMap">
+        SELECT UC.*, UCI.IMAGE_ID, UCI.IMAGE_URL, UCI.MAIN_IMAGE
+        FROM USED_CAR UC
+        LEFT JOIN USED_CAR_IMAGE UCI ON UC.VEHICLE_NO = UCI.VEHICLE_NO
+        WHERE UC.STATUS = 0  <!-- 활성 게시물만 조회 -->
+          AND 1=1
+          <if test="vehicleName != null and vehicleName != ''">
+              AND LOWER(UC.VEHICLE_NAME) LIKE LOWER(#{vehicleName}) || '%'
+          </if>
+          <if test="vehicleType != null and vehicleType != ''">
+              AND UC.VEHICLE_TYPE = #{vehicleType}
+          </if>
+          <if test="brand != null and brand != ''">
+              AND UC.BRAND = #{brand}
+          </if>
+          <if test="modelYear != null">
+              AND UC.MODEL_YEAR = #{modelYear}
+          </if>
+          <if test="minPrice != null">
+              AND UC.PRICE &gt;= #{minPrice}
+          </if>
+          <if test="maxPrice != null">
+              AND UC.PRICE &lt;= #{maxPrice}
+          </if>
+          <if test="color != null and color != ''">
+              AND UC.COLOR = #{color}
+          </if>
+          <if test="dealerLocation != null and dealerLocation != ''">
+              AND UC.DEALER_LOCATION = #{dealerLocation}
+          </if>
+          <if test="fuelType != null and fuelType.trim() != ''">
+               AND LOWER(UC.FUEL_TYPE) = LOWER(#{fuelType})
+          </if>
+          <if test="transmission != null and transmission != ''">
+              AND UC.TRANSMISSION = #{transmission}
+          </if>
+          <if test="driveType != null and driveType != ''">
+              AND UC.DRIVE_TYPE = #{driveType}
+          </if>
+          <if test="minKm != null">
+              AND UC.CAR_KM &gt;= #{minKm}
+          </if>
+          <if test="maxKm != null">
+              AND UC.CAR_KM &lt;= #{maxKm}
+          </if>
+          <if test="seatingCapacity != null">
+              AND UC.SEATING_CAPACITY = #{seatingCapacity}
+          </if>
+        ORDER BY 
+        <choose>
+            <when test="sortBy == 'car_km'">
+                UC.CAR_KM
+            </when>
+            <when test="sortBy == 'price'">
+                UC.PRICE
+            </when>
+            <when test="sortBy == 'model_year'">
+                UC.MODEL_YEAR
+            </when>
+            <otherwise>
+                UC.CAR_KM
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+            <otherwise>
+                DESC
+            </otherwise>
+        </choose>,
+        UCI.IMAGE_ID ASC
+    </select>
+
+    <!-- 차량 정보 수정 -->
+    <update id="updateCarDetails">
+        UPDATE USED_CAR
+        SET VEHICLE_NAME = #{vehicleName},
+            BRAND = #{brand},
+            MODEL_YEAR = #{modelYear},
+            PRICE = #{price},
+            COLOR = #{color},
+            FUEL_TYPE = #{fuelType},
+            TRANSMISSION = #{transmission},
+            DRIVE_TYPE = #{driveType},
+            SEATING_CAPACITY = #{seatingCapacity},
+            CAR_KM = #{carKm},
+            DESCRIPTION = #{description, jdbcType=VARCHAR}
+        WHERE VEHICLE_NO = #{vehicleNo}
+    </update>
+
+    <!-- 개별 이미지 추가 -->
+    <insert id="insertUsedCarImage">
+        INSERT INTO USED_CAR_IMAGE (IMAGE_ID, VEHICLE_NO, IMAGE_URL)
+        VALUES (USED_CAR_IMAGE_SEQ.NEXTVAL, #{vehicleNo}, #{imageUrl})
+    </insert>
+
+    <!-- 특정 이미지 삭제 -->
+    <delete id="deleteImageByUrl">
+        DELETE FROM USED_CAR_IMAGE WHERE IMAGE_URL = #{imageUrl}
+    </delete>
+
+    <!-- 대표 이미지 업데이트 (MAIN_IMAGE 컬럼 'Y' 설정) -->
+    <update id="updateMainImageStatusByVehicleNo">
+        UPDATE USED_CAR_IMAGE
+        SET MAIN_IMAGE = 'Y'
+        WHERE VEHICLE_NO = #{vehicleNo} AND IMAGE_URL = #{imageUrl}
+    </update>
+
+    <!-- 특정 이미지 삭제 -->
+    <delete id="deleteAllCarImages">
+        DELETE FROM USED_CAR_IMAGE
+        WHERE VEHICLE_NO = #{vehicleNo}
+    </delete>
+
+    <update id="updateMainImage">
+        UPDATE USED_CAR
+        SET MAIN_IMAGE = #{mainImage}
+        WHERE VEHICLE_NO = #{vehicleNo}
+    </update>
+
+    <!-- 중고차 메인이미지 NULL -->
+    <update id="clearMainImage" parameterType="string">
+        UPDATE USED_CAR SET MAIN_IMAGE = NULL WHERE VEHICLE_NO = #{vehicleNo}
+    </update>
+    
+    <!-- 차량 삭제 -->
+    <delete id="deleteUsedCar" parameterType="string">
+        DELETE FROM USED_CAR WHERE VEHICLE_NO = #{vehicleNo}
+    </delete>
+
+    <!-- 차량 등록 -->
+    <insert id="insertUsedCar" parameterType="com.rental.dto.UsedCarDTO">
+        INSERT INTO USED_CAR
+        (VEHICLE_NO, VEHICLE_NAME, DEALER_NO, VEHICLE_TYPE, BRAND, MODEL_YEAR, PRICE, COLOR, DEALER_LOCATION, 
+         FUEL_TYPE, TRANSMISSION, DRIVE_TYPE, MAIN_IMAGE, VEHICLE_PLATE, CAR_KM, SEATING_CAPACITY, DESCRIPTION)
+        VALUES
+        (#{vehicleNo, jdbcType=VARCHAR},
+         #{vehicleName, jdbcType=VARCHAR},
+         #{dealerNo, jdbcType=INTEGER},
+         #{vehicleType, jdbcType=VARCHAR},
+         #{brand, jdbcType=VARCHAR},
+         #{modelYear, jdbcType=INTEGER},
+         #{price, jdbcType=INTEGER},
+         #{color, jdbcType=VARCHAR},
+         #{dealerLocation, jdbcType=VARCHAR},
+         #{fuelType, jdbcType=VARCHAR},
+         #{transmission, jdbcType=VARCHAR},
+         #{driveType, jdbcType=VARCHAR},
+         #{mainImage, jdbcType=VARCHAR},
+         #{vehiclePlate, jdbcType=VARCHAR},
+         #{carKm, jdbcType=INTEGER},
+         #{seatingCapacity, jdbcType=INTEGER},
+         #{description, jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 결제번호 자동 생성 및 결제 내역 저장 -->
+    <insert id="insertUsedCarPayment" parameterType="com.rental.dto.UsedCarPaymentDTO" useGeneratedKeys="true" keyProperty="paymentNo" keyColumn="PAYMENT_NO">
+        INSERT INTO USED_CAR_PAYMENT (USER_NO)
+        VALUES (#{userNo})
+    </insert>
+
+    <update id="softDeleteUsedCar" parameterType="string">
+        UPDATE USED_CAR
+        SET STATUS = 1
+        WHERE VEHICLE_NO = #{vehicleNo}
+    </update>
+
+    <!-- 결제 상세 저장 -->
+    <insert id="insertUsedCarPaymentDetail" parameterType="com.rental.dto.UsedCarpaymentDetailDTO">
+        INSERT INTO USED_CAR_PAYMENT_DETAIL (VEHICLE_NO, PAYMENT_NO, PAYMENT_DATE)
+        VALUES (#{vehicleNo}, #{paymentNo}, #{paymentDate})
+    </insert>
+
+    <!-- 사용자 정보를 포함한 중고차 상세 조회 (조인 사용) -->
+    <resultMap id="UsedCarWithUserResultMap" type="com.rental.dto.UsedCarDTO">
+        <result column="VEHICLE_NAME" property="vehicleName"/>
+        <result column="VEHICLE_NO" property="vehicleNo"/>
+        <result column="DEALER_NO" property="dealerNo"/>
+        <result column="VEHICLE_TYPE" property="vehicleType"/>
+        <result column="BRAND" property="brand"/>
+        <result column="MODEL_YEAR" property="modelYear"/>
+        <result column="PRICE" property="price"/>
+        <result column="COLOR" property="color"/>
+        <result column="DEALER_LOCATION" property="dealerLocation"/>
+        <result column="FUEL_TYPE" property="fuelType"/>
+        <result column="TRANSMISSION" property="transmission"/>
+        <result column="DRIVE_TYPE" property="driveType"/>
+        <result column="VEHICLE_PLATE" property="vehiclePlate"/>
+        <result column="CAR_KM" property="carKm"/>
+        <result column="SEATING_CAPACITY" property="seatingCapacity"/>
+        <result column="MAIN_IMAGE" property="mainImage"/>
+        <result column="DESCRIPTION" property="description"/>
+        <!-- 딜러(사용자) 정보 매핑 -->
+        <association property="dealer" javaType="com.rental.dto.UserDTO">
+            <id column="USER_NO" property="userNo"/>
+            <result column="NAME" property="name"/>
+            <result column="EMAIL" property="email"/>
+            <result column="PHONE" property="phone"/>
+            <result column="ROLE" property="role"/>
+        </association>
+        <!-- 기존 이미지 목록 매핑 -->
+        <collection property="usedCarImages" ofType="com.rental.dto.UsedCarImageDTO">
+            <result column="IMAGE_ID" property="imageId" />
+            <result column="IMAGE_URL" property="imageUrl"/>
+            <result column="MAIN_IMAGE" property="mainImage"/>
+        </collection>
+    </resultMap>
+
+    <select id="findCarWithUser" resultMap="UsedCarWithUserResultMap" parameterType="String">
+        SELECT UC.*, U.USER_NO, U.NAME, U.EMAIL, U.PHONE, U.ROLE,
+               UCI.IMAGE_ID, UCI.IMAGE_URL, UCI.MAIN_IMAGE
+        FROM USED_CAR UC
+        LEFT JOIN users U ON UC.DEALER_NO = U.USER_NO
+        LEFT JOIN USED_CAR_IMAGE UCI ON UC.VEHICLE_NO = UCI.VEHICLE_NO
+        WHERE UC.VEHICLE_NO = #{vehicleNo}
+        ORDER BY UCI.IMAGE_ID ASC
+    </select>
+
+</mapper>

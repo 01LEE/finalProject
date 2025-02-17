@@ -1,0 +1,142 @@
+.charge-container {
+    display: flex;
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 왼쪽 패널 */
+  .left-panel {
+    width: 30%;
+    background: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    border-right: 2px solid #ddd;
+  }
+  
+  .charge-info {
+    margin-top: 20px;
+  }
+  
+  .charge-preview {
+    font-size: 32px;
+    font-weight: bold;
+    color: red;
+  }
+  
+  /* 오른쪽 패널 */
+  .right-panel {
+    width: 70%;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  /* 결제 옵션 */
+  .charge-options {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 0;
+  }
+  
+  .charge-option {
+    width: 30%;
+    text-align: center;
+    padding: 20px;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    font-weight: bold;
+  }
+  
+  .charge-option:hover,
+  .charge-option.selected {
+    border-color: red;
+    background: #ffecec;
+  }
+  
+  .rp {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .price {
+    font-size: 16px;
+    color: gray;
+    display: block;
+    margin-top: 5px;
+  }
+  
+  /* 결제 방식 탭 */
+  .tab-container {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-top: 20px;
+  }
+  
+  .tab-container span {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .active-tab {
+    border-bottom: 3px solid red;
+    color: red;
+  }
+  
+  /* 결제 수단 박스 */
+  .payment-box {
+    padding: 15px;
+    border: 2px solid #ddd;
+    margin-top: 10px;
+  }
+  
+  .payment-box p {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* 체크박스 */
+  .terms {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .terms label {
+    margin-left: 5px;
+    font-size: 14px;
+  }
+  
+  /* 결제 버튼 */
+  .charge-btn {
+    width: 100%;
+    padding: 15px;
+    background: red;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  
+  .charge-btn:hover {
+    background: darkred;
+  }
+  
